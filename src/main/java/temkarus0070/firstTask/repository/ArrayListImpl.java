@@ -235,10 +235,40 @@ public class ArrayListImpl implements List<Contract> {
 
     @Override
     public void sort(Comparator<? super Contract> c) {
-        List.super.sort(c);
+        quickSort(0,size-1,c);
     }
 
     private void quickSort(int begin,int end,Comparator<? super Contract> c){
+        if(begin>=end){
+         return;
+        }
+        int middle=move(begin,end,c);
+        quickSort(begin,middle,c);
+        quickSort(middle+1,end,c);
+    }
 
+    private int move(int begin,int end,Comparator<? super Contract> c){
+        int elementIndex=(begin+end)/2;            int l1=begin;
+        int l2=end;
+        while (true){
+
+            while (c.compare(array[l1],array[elementIndex])<0){
+                l1++;
+            }
+            while (c.compare(array[l2],array[elementIndex])>0){
+                l2--;
+            }
+            if(l1>=l2){
+                return l2;
+            }
+            change(l1++,l2--);
+        }
+
+    }
+
+    private void change(int first,int second){
+        Contract temp=array[first];
+        array[first]=array[second];
+        array[second]=temp;
     }
 }

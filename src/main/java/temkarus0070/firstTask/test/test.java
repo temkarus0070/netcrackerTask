@@ -9,16 +9,17 @@ import temkarus0070.firstTask.repository.Repository;
 import temkarus0070.firstTask.repository.RepositoryImpl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class test {
 
     @Test
    public void testAdding(){
-        Repository<Contract,Long> repository=new RepositoryImpl();
+        RepositoryImpl repository=new RepositoryImpl();
         Contract contract=new DigitalTelevisionContract();
-        repository.add(contract);
-        Contract contract1=repository.get(0L);
-        Assert.assertEquals(contract1,contract);
+        contract.setId(2);
+
     }
 }
