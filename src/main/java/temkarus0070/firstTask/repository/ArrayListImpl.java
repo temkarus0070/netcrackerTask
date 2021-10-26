@@ -140,11 +140,13 @@ public class ArrayListImpl implements List<Contract> {
 
     @Override
     public Contract remove(int i) {
+        Contract contract=array[i];
         array[i]=null;
         if(size>i+1){
         moveArray(i);
         }
-        return array[i];
+        size--;
+        return contract;
     }
 
     private void moveArray(int index){

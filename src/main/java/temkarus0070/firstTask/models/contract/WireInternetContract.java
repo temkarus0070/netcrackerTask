@@ -17,6 +17,10 @@ public class WireInternetContract extends Contract {
         setContractOwner(personOwner);
     }
 
+    public WireInternetContract(){
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

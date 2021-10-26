@@ -11,6 +11,12 @@ private int smsCount;
 private int gigabytesTraffic;
 
 
+
+
+    public MobileConnectionContract(){
+
+    }
+
     public MobileConnectionContract(int minutesCount, int smsCount, int gigabytesTraffic,int id, Date beginDate, Date endDate, Integer contractNum, Person personOwner) {
         this.minutesCount = minutesCount;
         this.smsCount = smsCount;
@@ -20,10 +26,6 @@ private int gigabytesTraffic;
         setEndDate(endDate);
         setContractNum(contractNum);
         setContractOwner(personOwner);
-    }
-
-    public MobileConnectionContract(){
-
     }
 
     @Override

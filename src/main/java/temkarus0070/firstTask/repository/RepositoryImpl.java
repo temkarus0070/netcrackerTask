@@ -18,10 +18,10 @@ public class RepositoryImpl implements Repository<Contract,Long> {
     }
 
     @Override
-    public Contract get(Long aLong) {
+    public Optional<Contract> get(Long aLong) {
         Optional<Contract> contractOptional=contracts.stream().filter(contract -> contract.getId()==aLong)
                 .findFirst();
-        return contractOptional.get();
+        return contractOptional;
     }
 
     @Override
@@ -37,12 +37,12 @@ public class RepositoryImpl implements Repository<Contract,Long> {
     public void remove(Long aLong) {
         int index=-1;
         for(int i=0;i<contracts.size();i++){
-            if(contracts.get(i).getId()==aLong){
+            if(contracts.get(i)!=null && aLong.equals(contracts.get(i).getId())){
                 index=i;
             }
         }
         if(index!=-1){
-            contracts.remove(index);
+               contracts.remove(index);
         }
     }
 
