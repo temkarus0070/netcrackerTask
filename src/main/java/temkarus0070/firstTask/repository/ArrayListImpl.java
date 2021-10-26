@@ -54,6 +54,7 @@ public class ArrayListImpl implements List<Contract>,Iterable<Contract> {
     }
 
 
+
     @Override
     public Stream<Contract> stream() {
         return Stream.of(array).limit(size);
@@ -142,7 +143,7 @@ public class ArrayListImpl implements List<Contract>,Iterable<Contract> {
     public Contract remove(int i) {
         Contract contract=array[i];
         array[i]=null;
-        if(size>i+1){
+        if(i!=size-1){
         moveArray(i);
         }
         size--;
