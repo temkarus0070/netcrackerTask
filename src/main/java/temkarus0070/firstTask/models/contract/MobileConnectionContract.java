@@ -11,9 +11,7 @@ private int smsCount;
 private int gigabytesTraffic;
 
 
-
-
-    public MobileConnectionContract(){
+    public MobileConnectionContract() {
 
     }
 

@@ -9,7 +9,7 @@ public class WireInternetContract extends Contract {
     private int connectionSpeed;
 
     public WireInternetContract(int connectionSpeed, int id, Date beginDate, Date endDate, Integer contractNum, Person personOwner) {
-        this.connectionSpeed=connectionSpeed;
+        this.connectionSpeed = connectionSpeed;
         setId(id);
         setBeginDate(beginDate);
         setEndDate(endDate);
@@ -17,7 +17,7 @@ public class WireInternetContract extends Contract {
         setContractOwner(personOwner);
     }
 
-    public WireInternetContract(){
+    public WireInternetContract() {
 
     }
 
@@ -28,7 +28,6 @@ public class WireInternetContract extends Contract {
         WireInternetContract that = (WireInternetContract) o;
         return connectionSpeed == that.connectionSpeed && super.equals(o);
     }
-
 
 
     @Override

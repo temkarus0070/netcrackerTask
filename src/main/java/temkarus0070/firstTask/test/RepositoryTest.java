@@ -14,52 +14,53 @@ import temkarus0070.firstTask.repository.RepositoryImpl;
 import java.util.*;
 
 public class RepositoryTest {
-    Random random=new Random(1999);
+    Random random = new Random(1999);
     private Collection<Contract> contracts;
+
     @Test
-    public void testAdding(){
-        Long num= random.nextLong();
-        RepositoryImpl repository=new RepositoryImpl();
-        Contract contract=new DigitalTelevisionContract();
+    public void testAdding() {
+        Long num = random.nextLong();
+        RepositoryImpl repository = new RepositoryImpl();
+        Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
         repository.add(contract);
-        Assert.assertSame(repository.get(num).get(),contract);
+        Assert.assertSame(repository.get(num).get(), contract);
         repository.remove(num);
     }
 
 
     @Test
-    public void testGetting(){
-        Long num= random.nextLong();
-        RepositoryImpl repository=new RepositoryImpl();
-        Contract contract=new DigitalTelevisionContract();
+    public void testGetting() {
+        Long num = random.nextLong();
+        RepositoryImpl repository = new RepositoryImpl();
+        Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
         repository.add(contract);
-        repository=new RepositoryImpl();
-        Assert.assertSame(repository.get(num).get(),contract);
+        repository = new RepositoryImpl();
+        Assert.assertSame(repository.get(num).get(), contract);
         repository.remove(num);
     }
 
     @Test
-    public void testRemove(){
-        int num= random.nextInt(3000);
-        RepositoryImpl repository=new RepositoryImpl();
-        Contract contract=new DigitalTelevisionContract();
+    public void testRemove() {
+        int num = random.nextInt(3000);
+        RepositoryImpl repository = new RepositoryImpl();
+        Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
         repository.add(contract);
-        repository.remove((long)num);
-        Assert.assertTrue(repository.get((long)num).isEmpty());
+        repository.remove((long) num);
+        Assert.assertTrue(repository.get((long) num).isEmpty());
     }
 
     @Test
-    public void addManyContracts(){
-        RepositoryImpl repository=new RepositoryImpl();
-        Collection<Contract> contractCollection=generateBigCollectionOfContracts();
+    public void addManyContracts() {
+        RepositoryImpl repository = new RepositoryImpl();
+        Collection<Contract> contractCollection = generateBigCollectionOfContracts();
         contractCollection.forEach(contract -> repository.add(contract));
-        for (Contract contract:contractCollection){
+        for (Contract contract : contractCollection) {
             Assert.assertTrue(repository.get(contract.getId()).isPresent());
         }
-        for(Contract contract:contractCollection){
+        for (Contract contract : contractCollection) {
             repository.remove(contract.getId());
         }
 
@@ -67,19 +68,19 @@ public class RepositoryTest {
     }
 
     @Test
-    public void removeManyContracts(){
-        RepositoryImpl repository=new RepositoryImpl();
-        Collection<Contract> contractCollection=generateBigCollectionOfContracts();
+    public void removeManyContracts() {
+        RepositoryImpl repository = new RepositoryImpl();
+        Collection<Contract> contractCollection = generateBigCollectionOfContracts();
         contractCollection.forEach(contract -> repository.add(contract));
-        for (Contract contract:contractCollection){
+        for (Contract contract : contractCollection) {
             repository.remove(contract.getId());
-            boolean b=repository.get(contract.getId()).isEmpty();
+            boolean b = repository.get(contract.getId()).isEmpty();
             Assert.assertTrue(repository.get(contract.getId()).isEmpty());
         }
     }
 
-    private Collection<Contract> generateBigCollectionOfContracts(){
-        if(contracts==null) {
+    private Collection<Contract> generateBigCollectionOfContracts() {
+        if (contracts == null) {
             int n = random.nextInt(20000);
             HashSet<Integer> usedIds = new HashSet<>();
             Collection<Contract> contractCollection = new ArrayListImpl();
@@ -111,10 +112,9 @@ public class RepositoryTest {
 
                 }
             }
-            contracts=contractCollection;
+            contracts = contractCollection;
             return contractCollection;
-        }
-        else return contracts;
+        } else return contracts;
     }
 }
 

@@ -5,7 +5,7 @@ import temkarus0070.firstTask.models.Person;
 import java.util.Date;
 import java.util.Objects;
 
-public class DigitalTelevisionContract extends Contract{
+public class DigitalTelevisionContract extends Contract {
     private String channelsPackage;
 
     public DigitalTelevisionContract(String channelsPackage, int id, Date beginDate, Date endDate, Integer contractNum, Person personOwner) {
@@ -17,7 +17,7 @@ public class DigitalTelevisionContract extends Contract{
         setContractOwner(personOwner);
     }
 
-    public DigitalTelevisionContract(){
+    public DigitalTelevisionContract() {
 
     }
 
@@ -26,7 +26,7 @@ public class DigitalTelevisionContract extends Contract{
         if (this == o) return true;
         if (!(o instanceof DigitalTelevisionContract)) return false;
         DigitalTelevisionContract that = (DigitalTelevisionContract) o;
-        return Objects.equals(channelsPackage, that.channelsPackage)&&super.equals(o);
+        return Objects.equals(channelsPackage, that.channelsPackage) && super.equals(o);
     }
 
     @Override

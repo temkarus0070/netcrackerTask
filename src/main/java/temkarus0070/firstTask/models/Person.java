@@ -13,14 +13,39 @@ public class Person {
     private Gender gender;
     private int passportChapter;
     private int passportNum;
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     private Date birthDate;
 
-    public int getAge(){
+    public Person(){
+
+    }
+    public Person(long id, String firstName, String lastName, String surname, Gender gender, int passportChapter, int passportNum, Date birthDate) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.surname = surname;
+        this.gender = gender;
+        this.passportChapter = passportChapter;
+        this.passportNum = passportNum;
+        this.birthDate = birthDate;
+    }
+
+
+
+    public int getAge() {
         LocalDate d1 = LocalDate.ofEpochDay(birthDate.getTime());
         LocalDate d2 = LocalDate.now();
         Duration diff = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
         long diffDays = diff.toDays();
-        return (int)(diffDays/365);
+        return (int) (diffDays / 365);
     }
 
     public long getId() {
