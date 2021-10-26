@@ -27,6 +27,19 @@ public class RepositoryTest {
         repository.remove(num);
     }
 
+
+    @Test
+    public void testGetting(){
+        Long num= random.nextLong();
+        RepositoryImpl repository=new RepositoryImpl();
+        Contract contract=new DigitalTelevisionContract();
+        contract.setId(num);
+        repository.add(contract);
+        repository=new RepositoryImpl();
+        Assert.assertSame(repository.get(num).get(),contract);
+        repository.remove(num);
+    }
+
     @Test
     public void testRemove(){
         int num= random.nextInt(3000);
