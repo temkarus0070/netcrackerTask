@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class ArrayListImpl implements List<Contract> {
+public class ArrayListImpl implements List<Contract>,Iterable<Contract> {
     private Contract[] array;
     private int size;
 
@@ -32,7 +32,7 @@ public class ArrayListImpl implements List<Contract> {
 
     @Override
     public Iterator<Contract> iterator() {
-        return null;
+        return (Iterator<Contract>)listIterator();
     }
 
     @Override
@@ -150,10 +150,10 @@ public class ArrayListImpl implements List<Contract> {
     }
 
     private void moveArray(int index){
-        for(int i=size-1;i>index;i--){
-            array[i-1]=array[i];
-            array[i]=null;
+        for(int i=index;i<size;i++){
+            array[i]=array[i+1];
         }
+        array[size-1]=null;
     }
 
     @Override
@@ -177,57 +177,12 @@ public class ArrayListImpl implements List<Contract> {
 
     @Override
     public ListIterator<Contract> listIterator() {
-        return new ListIterator<Contract>() {
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public Contract next() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-
-            @Override
-            public Contract previous() {
-                return null;
-            }
-
-            @Override
-            public int nextIndex() {
-                return 0;
-            }
-
-            @Override
-            public int previousIndex() {
-                return 0;
-            }
-
-            @Override
-            public void remove() {
-
-            }
-
-            @Override
-            public void set(Contract contract) {
-
-            }
-
-            @Override
-            public void add(Contract contract) {
-
-            }
-        };
+        return new MyListIterator(this);
     }
 
     @Override
     public ListIterator<Contract> listIterator(int i) {
-        return null;
+        return new MyListIterator(this,i);
     }
 
     @Override
@@ -273,4 +228,70 @@ public class ArrayListImpl implements List<Contract> {
         array[first]=array[second];
         array[second]=temp;
     }
+
 }
+
+    class MyListIterator implements ListIterator<Contract> {
+        int index = 0;
+        private ArrayListImpl arrayList;
+        public MyListIterator(ArrayListImpl arrayList){
+            this.arrayList=arrayList;
+        }
+        public MyListIterator(ArrayListImpl arrayList,int index){
+            this.arrayList=arrayList;
+            this.index=index;
+        }
+
+
+        @Override
+        public boolean hasNext() {
+            return index<arrayList.size();
+        }
+
+        @Override
+        public Contract next() {
+            Contract contract = arrayList.get(index);
+            index++;
+            return contract;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return index>0;
+        }
+
+        @Override
+        public Contract previous() {
+            if (index > 0) {
+                index--;
+            } else {
+                throw new UnsupportedOperationException();
+            }
+            return arrayList.get(index);
+        }
+
+        @Override
+        public int nextIndex() {
+            return index + 1;
+        }
+
+        @Override
+        public int previousIndex() {
+            return index - 1;
+        }
+
+        @Override
+        public void remove() {
+            arrayList.remove(index);
+        }
+
+        @Override
+        public void set(Contract contract) {
+            arrayList.set(index, contract);
+        }
+
+        @Override
+        public void add(Contract contract) {
+            arrayList.add(contract);
+        }
+    }

@@ -39,8 +39,32 @@ public class RepositoryTest {
 
     @Test
     public void addManyContracts(){
-        int n= random.nextInt(10000);
         RepositoryImpl repository=new RepositoryImpl();
+        Collection<Contract> contractCollection=generateBigCollectionOfContracts();
+        contractCollection.forEach(contract -> repository.add(contract));
+        for (Contract contract:contractCollection){
+            Assert.assertTrue(repository.get(contract.getId()).isPresent());
+        }
+        for(Contract contract:contractCollection){
+            repository.remove(contract.getId());
+        }
+
+
+    }
+
+    @Test
+    public void removeManyContracts(){
+        RepositoryImpl repository=new RepositoryImpl();
+        Collection<Contract> contractCollection=generateBigCollectionOfContracts();
+        contractCollection.forEach(contract -> repository.add(contract));
+        for (Contract contract:contractCollection){
+            repository.remove(contract.getId());
+            Assert.assertTrue(repository.get(contract.getId()).isEmpty());
+        }
+    }
+
+    private Collection<Contract> generateBigCollectionOfContracts(){
+        int n= 8;
         Collection<Contract> contractCollection=new ArrayListImpl();
         for(int i=0;i<n;i++){
             int choice= random.nextInt(3);
@@ -63,14 +87,8 @@ public class RepositoryTest {
                     break;
 
             }
-            repository.add(contract);
-
         }
-
-        for (Contract contract:contractCollection){
-            Assert.assertTrue(repository.get(contract.getId()).isPresent());
-        }
-
+        return contractCollection;
     }
 }
 
