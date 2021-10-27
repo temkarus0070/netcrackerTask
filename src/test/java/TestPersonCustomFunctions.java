@@ -1,6 +1,3 @@
-package temkarus0070.firstTask.test;
-
-
 import org.junit.Assert;
 import org.junit.Test;
 import temkarus0070.firstTask.models.Person;

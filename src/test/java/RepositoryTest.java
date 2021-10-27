@@ -1,5 +1,3 @@
-package temkarus0070.firstTask.test;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runners.JUnit4;
