@@ -19,6 +19,7 @@ public class RepositoryImpl implements Repository<Contract, Long> {
 
     /**
      * Get contract by id
+     *
      * @param id - unique contract identifier
      * @return Optional with needed contract
      */
@@ -31,6 +32,7 @@ public class RepositoryImpl implements Repository<Contract, Long> {
 
     /**
      * Add one or more contracts in repository
+     *
      * @param contract - one or more contracts
      */
     @Override
@@ -44,6 +46,7 @@ public class RepositoryImpl implements Repository<Contract, Long> {
 
     /**
      * Remove contract from repository by contract id
+     *
      * @param id - unique contract identifier
      */
     @Override

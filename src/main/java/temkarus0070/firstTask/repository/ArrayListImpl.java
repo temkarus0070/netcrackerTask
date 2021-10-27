@@ -69,8 +69,7 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
             array[size] = contract;
             size++;
             return true;
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             return false;
         }
     }
