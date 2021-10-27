@@ -3,7 +3,6 @@ package temkarus0070.firstTask.repository;
 import temkarus0070.firstTask.models.contract.Contract;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -64,11 +63,16 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
 
     @Override
     public boolean add(Contract contract) {
-        if (size + 1 > (array.length * 0.75))
-            extend();
-        array[size] = contract;
-        size++;
-        return true;
+        try {
+            if (size + 1 > (array.length * 0.75))
+                extend();
+            array[size] = contract;
+            size++;
+            return true;
+        }
+        catch (Exception ex){
+            return false;
+        }
     }
 
     /**
