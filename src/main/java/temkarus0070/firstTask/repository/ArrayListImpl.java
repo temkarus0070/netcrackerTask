@@ -6,6 +6,9 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+/**
+ * My realization of dynamic array with List and Iterable interfaces
+ */
 public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
     private Contract[] array;
     private int size;
@@ -68,6 +71,9 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
         return true;
     }
 
+    /**
+     * extend array and rewrite existed values to new array
+     */
     private void extend() {
         Contract[] newArray = new Contract[array.length * 2];
         for (int i = 0; i < size; i++) {
@@ -88,7 +94,13 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
 
     @Override
     public boolean containsAll(Collection<?> collection) {
-        return false;
+        Iterator iterator = collection.iterator();
+        while (iterator.hasNext()) {
+            Contract contract = (Contract) iterator.next();
+            if (!contains(contract))
+                return false;
+        }
+        return true;
     }
 
     @Override
@@ -109,12 +121,23 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        return false;
+        try {
+            collection.forEach(this::remove);
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        return false;
+        try {
+            collection.forEach(item -> add((Contract) item));
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -187,14 +210,30 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
 
     @Override
     public List<Contract> subList(int i, int i1) {
-        return null;
+        ArrayListImpl arrayList = new ArrayListImpl();
+        for (int j = 0; j < i1; j++) {
+            arrayList.add(get(j));
+        }
+        return arrayList;
     }
 
+    /**
+     * Quick sort of arrayList by given comparator
+     *
+     * @param c - comparator
+     */
     @Override
     public void sort(Comparator<? super Contract> c) {
         quickSort(0, size - 1, c);
     }
 
+    /**
+     * Quick sort of array list by given comparator for needed indexes
+     *
+     * @param begin - begin of array to sort
+     * @param end   - end of array to sort
+     * @param c     - comparator
+     */
     private void quickSort(int begin, int end, Comparator<? super Contract> c) {
         if (begin >= end) {
             return;
@@ -204,6 +243,14 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
         quickSort(middle + 1, end, c);
     }
 
+    /**
+     * method to get necessary order to  quick sort
+     *
+     * @param begin - begin of array to sort
+     * @param end   - end of array to sort
+     * @param c     - comparator
+     * @return
+     */
     private int move(int begin, int end, Comparator<? super Contract> c) {
         int elementIndex = (begin + end) / 2;
         int l1 = begin;
@@ -224,6 +271,12 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
 
     }
 
+    /**
+     * change elements in array
+     *
+     * @param first  - first element to change
+     * @param second - second element to change
+     */
     private void change(int first, int second) {
         Contract temp = array[first];
         array[first] = array[second];
