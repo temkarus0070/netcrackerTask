@@ -9,12 +9,8 @@ public class DigitalTelevisionContract extends Contract {
     private String channelsPackage;
 
     public DigitalTelevisionContract(String channelsPackage, int id, Date beginDate, Date endDate, Integer contractNum, Person personOwner) {
+        super(id,beginDate,endDate,contractNum,personOwner);
         this.channelsPackage = channelsPackage;
-        setId(id);
-        setBeginDate(beginDate);
-        setEndDate(endDate);
-        setContractNum(contractNum);
-        setContractOwner(personOwner);
     }
 
     public DigitalTelevisionContract() {

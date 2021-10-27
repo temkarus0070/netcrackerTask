@@ -1,13 +1,11 @@
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runners.JUnit4;
 import temkarus0070.firstTask.models.contract.Contract;
 import temkarus0070.firstTask.models.contract.DigitalTelevisionContract;
 import temkarus0070.firstTask.models.contract.MobileConnectionContract;
 import temkarus0070.firstTask.models.contract.WireInternetContract;
 import temkarus0070.firstTask.repository.ArrayListImpl;
-import temkarus0070.firstTask.repository.Repository;
-import temkarus0070.firstTask.repository.RepositoryImpl;
+import temkarus0070.firstTask.repository.ContractRepositoryImpl;
 
 import java.util.*;
 
@@ -21,7 +19,7 @@ public class RepositoryTest {
     @Test
     public void testAdding() {
         Long num = random.nextLong();
-        RepositoryImpl repository = new RepositoryImpl();
+        ContractRepositoryImpl repository = new ContractRepositoryImpl();
         Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
         repository.add(contract);
@@ -36,11 +34,11 @@ public class RepositoryTest {
     @Test
     public void testGetting() {
         Long num = random.nextLong();
-        RepositoryImpl repository = new RepositoryImpl();
+        ContractRepositoryImpl repository = new ContractRepositoryImpl();
         Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
         repository.add(contract);
-        repository = new RepositoryImpl();
+        repository = new ContractRepositoryImpl();
         Assert.assertSame(repository.get(num).get(), contract);
         repository.remove(num);
     }
@@ -51,7 +49,7 @@ public class RepositoryTest {
     @Test
     public void testRemove() {
         int num = random.nextInt(3000);
-        RepositoryImpl repository = new RepositoryImpl();
+        ContractRepositoryImpl repository = new ContractRepositoryImpl();
         Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
         repository.add(contract);
@@ -64,7 +62,7 @@ public class RepositoryTest {
      */
     @Test
     public void addManyContracts() {
-        RepositoryImpl repository = new RepositoryImpl();
+        ContractRepositoryImpl repository = new ContractRepositoryImpl();
         Collection<Contract> contractCollection = generateBigCollectionOfContracts();
         contractCollection.forEach(contract -> repository.add(contract));
         for (Contract contract : contractCollection) {
@@ -82,7 +80,7 @@ public class RepositoryTest {
      */
     @Test
     public void removeManyContracts() {
-        RepositoryImpl repository = new RepositoryImpl();
+        ContractRepositoryImpl repository = new ContractRepositoryImpl();
         Collection<Contract> contractCollection = generateBigCollectionOfContracts();
         contractCollection.forEach(contract -> repository.add(contract));
         for (Contract contract : contractCollection) {

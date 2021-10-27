@@ -9,12 +9,8 @@ public class WireInternetContract extends Contract {
     private int connectionSpeed;
 
     public WireInternetContract(int connectionSpeed, int id, Date beginDate, Date endDate, Integer contractNum, Person personOwner) {
+        super(id,beginDate,endDate,contractNum,personOwner);
         this.connectionSpeed = connectionSpeed;
-        setId(id);
-        setBeginDate(beginDate);
-        setEndDate(endDate);
-        setContractNum(contractNum);
-        setContractOwner(personOwner);
     }
 
     public WireInternetContract() {

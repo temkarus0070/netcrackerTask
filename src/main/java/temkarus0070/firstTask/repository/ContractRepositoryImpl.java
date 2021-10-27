@@ -7,11 +7,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class RepositoryImpl implements Repository<Contract, Long> {
+public class ContractRepositoryImpl implements Repository<Contract, Long> {
+    /**
+     * static variable to save info about last used identifier
+     */
     private static long id = 0;
+
+    /**
+     * static variable to save all ContractRepositories to simulate real database
+     */
     private static List<Contract> contracts;
 
-    public RepositoryImpl() {
+    public ContractRepositoryImpl() {
         if (contracts == null) {
             contracts = new ArrayListImpl();
         }

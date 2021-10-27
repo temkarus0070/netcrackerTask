@@ -13,6 +13,7 @@ public class Person {
     private Gender gender;
     private int passportChapter;
     private int passportNum;
+    private Date birthDate;
 
     public Date getBirthDate() {
         return birthDate;
@@ -22,11 +23,11 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    private Date birthDate;
 
-    public Person(){
+    public Person() {
 
     }
+
     public Person(long id, String firstName, String lastName, String surname, Gender gender, int passportChapter, int passportNum, Date birthDate) {
         this.id = id;
         this.firstName = firstName;
@@ -39,7 +40,11 @@ public class Person {
     }
 
 
-
+    /**
+     * Calculate age by birthdate
+     *
+     * @return age that is calculated with birthdate and today date
+     */
     public int getAge() {
         LocalDate d1 = LocalDate.ofEpochDay(birthDate.getTime());
         LocalDate d2 = LocalDate.now();

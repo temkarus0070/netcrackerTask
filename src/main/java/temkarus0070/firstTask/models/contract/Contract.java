@@ -12,6 +12,18 @@ public abstract class Contract {
     private Integer contractNum;
     private Person contractOwner;
 
+    public Contract(){
+
+    }
+
+    public Contract(long id, Date beginDate, Date endDate, Integer contractNum, Person contractOwner) {
+        this.id = id;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.contractNum = contractNum;
+        this.contractOwner = contractOwner;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
