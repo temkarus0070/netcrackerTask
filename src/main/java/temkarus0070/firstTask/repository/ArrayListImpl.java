@@ -17,6 +17,13 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
         array = new Contract[50];
     }
 
+    public ArrayListImpl(Collection<Contract> contracts){
+        array=new Contract[50];
+        for (Contract contract : contracts) {
+            add(contract);
+        }
+    }
+
     @Override
     public int size() {
         return size;
