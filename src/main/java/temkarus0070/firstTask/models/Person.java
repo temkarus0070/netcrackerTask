@@ -1,7 +1,9 @@
 package temkarus0070.firstTask.models;
 
+import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -46,7 +48,9 @@ public class Person {
      * @return age that is calculated with birthdate and today date
      */
     public int getAge() {
-        LocalDate d1 = LocalDate.ofEpochDay(birthDate.getTime());
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(birthDate);
+        LocalDate d1 = LocalDate.of(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
         LocalDate d2 = LocalDate.now();
         Duration diff = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
         long diffDays = diff.toDays();
