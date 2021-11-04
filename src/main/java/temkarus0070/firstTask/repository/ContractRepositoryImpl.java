@@ -1,11 +1,13 @@
 package temkarus0070.firstTask.repository;
 
+import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ContractRepositoryImpl implements Repository<Contract, Long> {
     /**
@@ -36,6 +38,9 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
                 .findFirst();
         return contractOptional;
     }
+
+
+
 
     /**
      * Add one or more contracts in repository
@@ -68,6 +73,23 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
         if (index != -1) {
             contracts.remove(index);
         }
+    }
+
+    @Override
+    public List<Contract> getByCriterias(Predicate<Contract>... predicates) {
+        Stream<Contract> contractStream=contracts.stream();
+        for (Predicate<Contract> predicate : predicates) {
+            contractStream=contractStream.filter(predicate::test);
+        }
+        return contractStream.collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<Contract> sort(ISorter<Contract> sorter,Comparator<Contract>comparator) {
+        List list= new ArrayListImpl(contracts);
+        sorter.sort(comparator,list);
+        return list;
     }
 
 }
