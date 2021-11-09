@@ -5,21 +5,30 @@ import temkarus0070.firstTask.models.contract.Contract;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ContractRepositoryImpl implements Repository<Contract, Long> {
     /**
-     * variable to save info about last used identifier
+     * static variable to save info about last used identifier
      */
-    private long id = 0;
+    private static long id = 0;
+    private Predicate<Contract>[] predicates;
+    private List<Contract> cachedContracts;
+    private boolean isSorted;
+    private ISorter<Contract> sorter;
 
     /**
-     * contracts list
+     * static variable to save all ContractRepositories to simulate real database
      */
-    private List<Contract> contracts = new ArrayListImpl();
+    private static List<Contract> contracts;
 
+    public ContractRepositoryImpl() {
+        if (contracts == null) {
+            contracts = new ArrayListImpl();
+        }
+        cachedContracts = contracts;
+    }
 
     /**
      * Get contract by id
@@ -29,13 +38,26 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
      */
     @Override
     public Optional<Contract> get(Long id) {
-        Optional<Contract> contractOptional = contracts.stream()
-                .filter(contract -> id.equals(contract.getId()))
+        if (predicates != null) {
+            filter();
+        }
+        Optional<Contract> contractOptional = cachedContracts.stream().filter(contract -> id.equals(contract.getId()))
                 .findFirst();
         return contractOptional;
     }
 
+    private void filter() {
+        Stream<Contract> contractStream = contracts.stream();
+        for (Predicate<Contract> predicate : predicates) {
+            contractStream = contractStream.filter(predicate);
+        }
+        List<Contract> contractList = contractStream.collect(Collectors.toList());
+        if (!contractList.equals(cachedContracts)) {
+            cachedContracts = contractList;
+            isSorted = false;
+        }
 
+    }
 
 
     /**
@@ -49,7 +71,19 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
             if (contract1.getId() == 0)
                 contract1.setId(id++);
             contracts.add(contract1);
+
         }
+    }
+
+    @Override
+    public Contract getByIndex(int index) {
+        if (predicates != null)
+            filter();
+        if (!isSorted) {
+            sorter.sort();
+            isSorted = true;
+        }
+        return cachedContracts.get(index);
     }
 
     /**
@@ -59,33 +93,32 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
      */
     @Override
     public void remove(Long id) {
-        int index = -1;
+        removeFromList(contracts, contract -> id.equals(contract.getId()));
+    }
+
+    private void removeFromList(List<Contract> contracts, Predicate<Contract> predicate) {
         for (int i = 0; i < contracts.size(); i++) {
-            if (contracts.get(i) != null && id.equals(contracts.get(i).getId())) {
-                index = i;
+            Contract contract = contracts.get(i);
+            if (contract != null && predicate.test(contract)) {
+                contracts.remove(i);
                 break;
             }
         }
-        if (index != -1) {
-            contracts.remove(index);
-        }
     }
 
     @Override
-    public List<Contract> getByCriterias(Predicate<Contract>... predicates) {
-        Stream<Contract> contractStream=contracts.stream();
-        for (Predicate<Contract> predicate : predicates) {
-            contractStream=contractStream.filter(predicate::test);
-        }
-        return contractStream.collect(Collectors.toList());
-
+    public ContractRepositoryImpl getByCriterias(Predicate<Contract>... predicates) {
+        ContractRepositoryImpl contractRepository = new ContractRepositoryImpl();
+        contractRepository.predicates = predicates;
+        return contractRepository;
     }
 
     @Override
-    public List<Contract> sort(ISorter<Contract> sorter,Comparator<Contract>comparator) {
-        List list= new ArrayListImpl(contracts);
-        sorter.sort(comparator,list);
-        return list;
+    public void sort(ISorter<Contract> sorter, Comparator<Contract> comparator) {
+        this.sorter = sorter;
+        this.sorter.setList(cachedContracts);
+        this.sorter.setComparator(comparator);
     }
+
 
 }
