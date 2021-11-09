@@ -17,8 +17,8 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
         array = new Contract[50];
     }
 
-    public ArrayListImpl(Collection<Contract> contracts){
-        array=new Contract[50];
+    public ArrayListImpl(Collection<Contract> contracts) {
+        array = new Contract[50];
         for (Contract contract : contracts) {
             add(contract);
         }
@@ -124,17 +124,20 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
 
     @Override
     public boolean addAll(int i, Collection<? extends Contract> collection) {
-        int size=collection.size();
-        if(size()+collection.size()> array.length){
+        int collectionSize = collection.size();
+        if (size() + collection.size() > array.length) {
             extend();
         }
-        int index=i;
-        while (array[index]!=null){
-            array[index+size]=array[index];
+        int index = i;
+        while (array[index] != null) {
+            array[index + collectionSize] = array[index];
             index++;
+
         }
-        for(int index1=i;index1<size;index1++){
-            array[index1]=collection.iterator().next();
+        Iterator<Contract> iterator = (Iterator<Contract>) collection.iterator();
+        for (int index1 = i; index1 < this.size && iterator.hasNext(); index1++) {
+            array[index1] = iterator.next();
+            this.size++;
         }
         return true;
     }
@@ -246,6 +249,7 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
     public void sort(Comparator<? super Contract> c) {
         quickSort(0, size - 1, c);
     }
+
 
     /**
      * Quick sort of array list by given comparator for needed indexes

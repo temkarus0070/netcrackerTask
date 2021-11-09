@@ -13,6 +13,7 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
      * static variable to save info about last used identifier
      */
     private static long id = 0;
+
     private Predicate<Contract>[] predicates;
     private List<Contract> cachedContracts;
     private boolean isSorted;
