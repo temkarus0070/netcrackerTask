@@ -124,8 +124,18 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
 
     @Override
     public boolean addAll(int i, Collection<? extends Contract> collection) {
-        for (int index = i; index < collection.size(); index++)
-            add(index, collection.iterator().next());
+        int size=collection.size();
+        if(size()+collection.size()> array.length){
+            extend();
+        }
+        int index=i;
+        while (array[index]!=null){
+            array[index+size]=array[index];
+            index++;
+        }
+        for(int index1=i;index1<size;index1++){
+            array[index1]=collection.iterator().next();
+        }
         return true;
     }
 
@@ -251,6 +261,21 @@ public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
         int middle = move(begin, end, c);
         quickSort(begin, middle, c);
         quickSort(middle + 1, end, c);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ArrayListImpl)) return false;
+        ArrayListImpl contracts = (ArrayListImpl) o;
+        return size == contracts.size && Arrays.equals(array, contracts.array);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(size);
+        result = 31 * result + Arrays.hashCode(array);
+        return result;
     }
 
     /**

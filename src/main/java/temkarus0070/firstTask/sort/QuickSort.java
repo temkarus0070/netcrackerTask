@@ -3,17 +3,14 @@ package temkarus0070.firstTask.sort;
 import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
 public class QuickSort implements ISorter<Contract> {
     private List<Contract> list;
-    @Override
-    public void sort(Comparator<Contract> comparator, List<Contract> list) {
-        this.list=list;
-        quickSort(0,list.size()-1,comparator);
+    private Comparator<Contract> comparator;
 
-    }
     private void quickSort(int begin, int end, Comparator<? super Contract> c) {
         if (begin >= end) {
             return;
@@ -45,14 +42,29 @@ public class QuickSort implements ISorter<Contract> {
             if (l1 >= l2) {
                 return l2;
             }
-            swap(l1++, l2--,list);
+            swap(l1++, l2--, list);
         }
 
     }
 
-    private void swap(int first,int second,List<Contract> list){
-        Contract temp=list.get(first);
-        list.set(first,list.get(second));
-        list.set(second,temp);
+    private void swap(int first, int second, List<Contract> list) {
+        Contract temp = list.get(first);
+        list.set(first, list.get(second));
+        list.set(second, temp);
+    }
+
+    @Override
+    public void sort() {
+        quickSort(0, list.size() - 1, comparator);
+    }
+
+    @Override
+    public void setList(List<Contract> list) {
+        this.list = list;
+    }
+
+    @Override
+    public void setComparator(Comparator<Contract> comparator) {
+        this.comparator = comparator;
     }
 }
