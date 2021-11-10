@@ -83,7 +83,7 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
         else if (sorter != null) {
             cachedContracts = new ArrayListImpl(cachedContracts);
         }
-        if (!isSorted) {
+        if (sorter!=null && !isSorted ) {
             sorter.setList(cachedContracts);
             sorter.sort();
             isSorted = true;
