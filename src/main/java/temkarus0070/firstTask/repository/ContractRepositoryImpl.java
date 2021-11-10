@@ -80,7 +80,11 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
     public Contract getByIndex(int index) {
         if (predicates != null)
             filter();
+        else if (sorter != null) {
+            cachedContracts = new ArrayListImpl(cachedContracts);
+        }
         if (!isSorted) {
+            sorter.setList(cachedContracts);
             sorter.sort();
             isSorted = true;
         }
@@ -117,7 +121,6 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
     @Override
     public void sort(ISorter<Contract> sorter, Comparator<Contract> comparator) {
         this.sorter = sorter;
-        this.sorter.setList(cachedContracts);
         this.sorter.setComparator(comparator);
     }
 
