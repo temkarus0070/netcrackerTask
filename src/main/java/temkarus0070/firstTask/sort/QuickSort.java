@@ -3,7 +3,6 @@ package temkarus0070.firstTask.sort;
 import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
