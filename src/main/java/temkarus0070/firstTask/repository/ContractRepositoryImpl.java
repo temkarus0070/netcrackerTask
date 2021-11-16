@@ -9,20 +9,15 @@ import java.util.Optional;
 
 public class ContractRepositoryImpl implements Repository<Contract, Long> {
     /**
-     * static variable to save info about last used identifier
+     * variable to save info about last used identifier
      */
-    private static long id = 0;
+    private long id = 0;
 
     /**
-     * static variable to save all ContractRepositories to simulate real database
+     * contracts list
      */
-    private static List<Contract> contracts;
+    private  List<Contract> contracts=new ArrayListImpl();
 
-    public ContractRepositoryImpl() {
-        if (contracts == null) {
-            contracts = new ArrayListImpl();
-        }
-    }
 
     /**
      * Get contract by id
