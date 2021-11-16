@@ -38,7 +38,6 @@ public class RepositoryTest {
         Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
         repository.add(contract);
-        repository = new ContractRepositoryImpl();
         Assert.assertSame(repository.get(num).get(), contract);
         repository.remove(num);
     }
