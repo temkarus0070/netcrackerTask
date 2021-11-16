@@ -1,11 +1,14 @@
 package temkarus0070.firstTask.repository;
 
+import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class ContractRepositoryImpl implements Repository<Contract, Long> {
     /**
@@ -47,6 +50,11 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
         }
     }
 
+    @Override
+    public Contract getByIndex(int index) {
+        return contracts.get(index);
+    }
+
     /**
      * Remove contract from repository by contract id
      *
@@ -64,6 +72,35 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
         if (index != -1) {
             contracts.remove(index);
         }
+    }
+
+    @Override
+    public Repository<Contract, Long> getByCriterias(Predicate<Contract>... predicates) {
+        boolean hasAllCriterias;
+        ContractRepositoryImpl contractRepository = new ContractRepositoryImpl();
+        List<Contract> filteredContacts = new ArrayListImpl();
+        for (Contract contract : contracts) {
+            hasAllCriterias = true;
+            for (Predicate<Contract> predicate : predicates) {
+                if (!predicate.test(contract)) {
+                    hasAllCriterias = false;
+                    break;
+                }
+            }
+            if (hasAllCriterias) {
+                filteredContacts.add(contract);
+            }
+
+        }
+        contractRepository.contracts = filteredContacts;
+        return contractRepository;
+    }
+
+    @Override
+    public void sort(ISorter<Contract> sorter, Comparator<Contract> comparator) {
+        sorter.setList(contracts);
+        sorter.setComparator(comparator);
+        sorter.sort();
     }
 
 }

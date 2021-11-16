@@ -7,6 +7,7 @@ import temkarus0070.firstTask.models.contract.DigitalTelevisionContract;
 import temkarus0070.firstTask.models.contract.MobileConnectionContract;
 import temkarus0070.firstTask.models.contract.WireInternetContract;
 import temkarus0070.firstTask.repository.ContractRepositoryImpl;
+import temkarus0070.firstTask.repository.Repository;
 
 import java.sql.Date;
 
@@ -22,9 +23,10 @@ public class TestForCriteriasSearch {
         WireInternetContract wireInternetContract = new WireInternetContract(100, 4, Date.valueOf("2018-03-09"), Date.valueOf("2024-08-09"), 444, notPupkin);
         contractRepository.add(mobileConnectionContract, digitalTelevisionContract, wireInternetContract);
 
-        ContractRepositoryImpl contractRepositoryWithElders = contractRepository.getByCriterias(e -> e.getContractOwner().getAge() > 25);
+        Repository<Contract,Long> contractRepositoryWithElders = contractRepository.getByCriterias(e -> e.getContractOwner().getAge() > 25);
         Contract contract = contractRepositoryWithElders.getByIndex(0);
         Assert.assertTrue(contract.getContractOwner().getAge() > 25);
+        Assert.assertNull(contractRepositoryWithElders.getByIndex(1));
 
     }
 
@@ -39,11 +41,11 @@ public class TestForCriteriasSearch {
         WireInternetContract wireInternetContract = new WireInternetContract(100, 4, Date.valueOf("2018-03-09"), Date.valueOf("2024-08-09"), 444, notPupkin);
         contractRepository.add(mobileConnectionContract, digitalTelevisionContract, wireInternetContract);
 
-        ContractRepositoryImpl contractRepository1 = contractRepository.getByCriterias(e -> e.getContractOwner().equals(pupkin));
+        Repository<Contract,Long> contractRepository1 = contractRepository.getByCriterias(e -> e.getContractOwner().equals(pupkin));
         for (int i = 0; i < 2; i++) {
             Contract contract = contractRepository1.getByIndex(i);
             if (contract != null) {
-                Assert.assertTrue(contract.getContractOwner().getLastName().equals("Pupkin"));
+                Assert.assertEquals("Pupkin", contract.getContractOwner().getLastName());
             }
         }
     }
