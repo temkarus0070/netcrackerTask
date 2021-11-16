@@ -16,7 +16,7 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
     /**
      * contracts list
      */
-    private  List<Contract> contracts=new ArrayListImpl();
+    private List<Contract> contracts = new ArrayListImpl();
 
 
     /**
@@ -27,7 +27,8 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
      */
     @Override
     public Optional<Contract> get(Long id) {
-        Optional<Contract> contractOptional = contracts.stream().filter(contract -> id.equals(contract.getId()))
+        Optional<Contract> contractOptional = contracts.stream()
+                .filter(contract -> id.equals(contract.getId()))
                 .findFirst();
         return contractOptional;
     }
