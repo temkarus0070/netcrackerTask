@@ -1,14 +1,12 @@
 package temkarus0070.firstTask.repository;
 
-import temkarus0070.firstTask.ISorter;
+import temkarus0070.firstTask.sort.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public class ContractRepositoryImpl implements Repository<Contract, Long> {
     /**

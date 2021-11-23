@@ -1,6 +1,6 @@
 package temkarus0070.firstTask.repository;
 
-import temkarus0070.firstTask.ISorter;
+import temkarus0070.firstTask.sort.ISorter;
 
 import java.util.Comparator;
 import java.util.Optional;

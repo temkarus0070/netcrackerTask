@@ -1,4 +1,4 @@
-package temkarus0070.firstTask;
+package temkarus0070.firstTask.sort;
 
 import java.util.Comparator;
 import java.util.List;

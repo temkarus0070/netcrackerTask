@@ -1,6 +1,5 @@
 package temkarus0070.firstTask.sort;
 
-import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
 
 import java.util.Comparator;
