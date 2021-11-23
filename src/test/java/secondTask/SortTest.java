@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SortTest {
     @Test
-    public void testSort() {
+    public void testQuickSort() {
         ContractRepositoryImpl contractRepository = new ContractRepositoryImpl();
         Person ivan = new Person(5, "Ivan", "Ivanov", "Ivanovich", Gender.MALE, 2224, 2393, Date.valueOf("2005-09-03"));
         MobileConnectionContract youngestPersonMobileConnectionContract = new MobileConnectionContract(555, 666, 777, 8, Date.valueOf("2021-01-02"), Date.valueOf("2023-01-02"), 5000, ivan);
@@ -32,6 +32,35 @@ public class SortTest {
         contractRepository.add(wireInternetContract, mobileConnectionContract, digitalTelevisionContract,youngestPersonMobileConnectionContract);
 
         contractRepository.sort(new QuickSort(), new Comparator<Contract>() {
+            @Override
+            public int compare(Contract o1, Contract o2) {
+                if( o1.getContractOwner().getAge()>o2.getContractOwner().getAge())
+                    return 1;
+                else if( o1.getContractOwner().getAge()==o2.getContractOwner().getAge())
+                    return 0;
+                else return -1;
+            }
+        });
+
+        for(int i=1;i<4;i++){
+            Assert.assertTrue(contractRepository.getByIndex(i-1).getContractOwner().getAge()<=contractRepository.getByIndex(i).getContractOwner().getAge());
+        }
+    }
+
+    @Test
+    public void testBubbleSort() {
+        ContractRepositoryImpl contractRepository = new ContractRepositoryImpl();
+        Person ivan = new Person(5, "Ivan", "Ivanov", "Ivanovich", Gender.MALE, 2224, 2393, Date.valueOf("2005-09-03"));
+        MobileConnectionContract youngestPersonMobileConnectionContract = new MobileConnectionContract(555, 666, 777, 8, Date.valueOf("2021-01-02"), Date.valueOf("2023-01-02"), 5000, ivan);
+        Person pupkin = new Person(1, "Vasya", "Pupkin", "Ivanovich", Gender.MALE, 111, 1111, java.sql.Date.valueOf("2000-04-09"));
+        MobileConnectionContract mobileConnectionContract = new MobileConnectionContract(444, 0, 88, 1, java.sql.Date.valueOf("2020-03-09"), Date.valueOf("2023-04-09"),
+                77, pupkin);
+        DigitalTelevisionContract digitalTelevisionContract = new DigitalTelevisionContract("big", 2, java.sql.Date.valueOf("2020-04-09"), java.sql.Date.valueOf("2022-04-09"), 333, pupkin);
+        Person veryOldPerson = new Person(2, "Elizabeth", "Peterson", "Ivanovna", Gender.FEMALE, 888, 2222, Date.valueOf("1980-04-09"));
+        WireInternetContract wireInternetContract = new WireInternetContract(100, 4, Date.valueOf("2018-03-09"), Date.valueOf("2024-08-09"), 444, veryOldPerson);
+        contractRepository.add(wireInternetContract, mobileConnectionContract, digitalTelevisionContract,youngestPersonMobileConnectionContract);
+
+        contractRepository.sort(new BubbleSort(), new Comparator<Contract>() {
             @Override
             public int compare(Contract o1, Contract o2) {
                 if( o1.getContractOwner().getAge()>o2.getContractOwner().getAge())
