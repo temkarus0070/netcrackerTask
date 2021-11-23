@@ -1,3 +1,5 @@
+package firstTask;
+
 import org.junit.Assert;
 import org.junit.Test;
 import temkarus0070.firstTask.models.contract.Contract;
