@@ -2,13 +2,14 @@ package temkarus0070.firstTask.models.contract;
 
 import temkarus0070.firstTask.models.Person;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 public abstract class Contract {
     private long id;
-    private Date beginDate;
-    private Date endDate;
+    private LocalDate beginDate;
+    private LocalDate endDate;
     private Integer contractNum;
     private Person contractOwner;
 
@@ -16,7 +17,7 @@ public abstract class Contract {
 
     }
 
-    public Contract(long id, Date beginDate, Date endDate, Integer contractNum, Person contractOwner) {
+    public Contract(long id, LocalDate beginDate, LocalDate endDate, Integer contractNum, Person contractOwner) {
         this.id = id;
         this.beginDate = beginDate;
         this.endDate = endDate;
@@ -45,19 +46,19 @@ public abstract class Contract {
         this.id = id;
     }
 
-    public Date getBeginDate() {
+    public LocalDate getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(Date beginDate) {
+    public void setBeginDate(LocalDate beginDate) {
         this.beginDate = beginDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

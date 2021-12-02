@@ -1,5 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
+import temkarus0070.firstTask.models.Person;
 import temkarus0070.firstTask.models.contract.Contract;
 import temkarus0070.firstTask.models.contract.DigitalTelevisionContract;
 import temkarus0070.firstTask.models.contract.MobileConnectionContract;
@@ -10,6 +11,7 @@ import temkarus0070.firstTask.repository.ContractRepositoryImpl;
 import java.util.*;
 
 public class RepositoryTest {
+    Person person = new Person();
     Random random = new Random(1999);
     private Collection<Contract> contracts;
 
@@ -22,6 +24,7 @@ public class RepositoryTest {
         ContractRepositoryImpl repository = new ContractRepositoryImpl();
         Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
+        contract.setContractOwner(person);
         repository.add(contract);
         Assert.assertSame(repository.get(num).get(), contract);
         repository.remove(num);
@@ -37,6 +40,7 @@ public class RepositoryTest {
         ContractRepositoryImpl repository = new ContractRepositoryImpl();
         Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
+        contract.setContractOwner(person);
         repository.add(contract);
         Assert.assertSame(repository.get(num).get(), contract);
         repository.remove(num);
@@ -51,6 +55,7 @@ public class RepositoryTest {
         ContractRepositoryImpl repository = new ContractRepositoryImpl();
         Contract contract = new DigitalTelevisionContract();
         contract.setId(num);
+        contract.setContractOwner(person);
         repository.add(contract);
         repository.remove((long) num);
         Assert.assertTrue(repository.get((long) num).isEmpty());
@@ -113,21 +118,17 @@ public class RepositoryTest {
                 switch (choice) {
                     case 0:
                         contract = new DigitalTelevisionContract();
-                        contract.setId(id);
-                        contractCollection.add(contract);
                         break;
                     case 1:
                         contract = new MobileConnectionContract();
-                        contract.setId(id);
-                        contractCollection.add(contract);
                         break;
                     case 2:
                         contract = new WireInternetContract();
-                        contract.setId(id);
-                        contractCollection.add(contract);
                         break;
-
                 }
+                contract.setId(id);
+                contract.setContractOwner(person);
+                contractCollection.add(contract);
             }
             contracts = contractCollection;
             return contractCollection;
