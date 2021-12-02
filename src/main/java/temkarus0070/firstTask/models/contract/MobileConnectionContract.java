@@ -2,6 +2,7 @@ package temkarus0070.firstTask.models.contract;
 
 import temkarus0070.firstTask.models.Person;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -15,7 +16,7 @@ private int gigabytesTraffic;
 
     }
 
-    public MobileConnectionContract(int minutesCount, int smsCount, int gigabytesTraffic,int id, Date beginDate, Date endDate, Integer contractNum, Person personOwner) {
+    public MobileConnectionContract(int minutesCount, int smsCount, int gigabytesTraffic, int id, LocalDate beginDate, LocalDate endDate, Integer contractNum, Person personOwner) {
         super(id,beginDate,endDate,contractNum,personOwner);
         this.minutesCount = minutesCount;
         this.smsCount = smsCount;

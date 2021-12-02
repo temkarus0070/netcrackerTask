@@ -16,6 +16,8 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
      */
     private long id = 0;
 
+    private int contractNum=100;
+
     private long personId = 0;
 
     /**
@@ -51,6 +53,7 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
             if (contract1.getContractOwner().getId() == 0) {
                 contract1.getContractOwner().setId(personId++);
             }
+            contract1.setContractNum(contractNum++);
             contracts.add(contract1);
         }
     }

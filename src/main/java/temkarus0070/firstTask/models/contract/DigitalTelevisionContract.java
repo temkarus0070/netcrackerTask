@@ -2,13 +2,14 @@ package temkarus0070.firstTask.models.contract;
 
 import temkarus0070.firstTask.models.Person;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 public class DigitalTelevisionContract extends Contract {
     private String channelsPackage;
 
-    public DigitalTelevisionContract(String channelsPackage, int id, Date beginDate, Date endDate, Integer contractNum, Person personOwner) {
+    public DigitalTelevisionContract(String channelsPackage, int id, LocalDate beginDate, LocalDate endDate, Integer contractNum, Person personOwner) {
         super(id,beginDate,endDate,contractNum,personOwner);
         this.channelsPackage = channelsPackage;
     }

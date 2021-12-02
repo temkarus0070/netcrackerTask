@@ -2,13 +2,14 @@ package temkarus0070.firstTask.models.contract;
 
 import temkarus0070.firstTask.models.Person;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 public class WireInternetContract extends Contract {
     private int connectionSpeed;
 
-    public WireInternetContract(int connectionSpeed, int id, Date beginDate, Date endDate, Integer contractNum, Person personOwner) {
+    public WireInternetContract(int connectionSpeed, int id, LocalDate beginDate, LocalDate endDate, Integer contractNum, Person personOwner) {
         super(id,beginDate,endDate,contractNum,personOwner);
         this.connectionSpeed = connectionSpeed;
     }

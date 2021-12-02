@@ -15,13 +15,13 @@ public class Person {
     private Gender gender;
     private int passportChapter;
     private int passportNum;
-    private Date birthDate;
+    private LocalDate birthDate;
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -30,7 +30,7 @@ public class Person {
 
     }
 
-    public Person(long id, String firstName, String lastName, String surname, Gender gender, int passportChapter, int passportNum, Date birthDate) {
+    public Person(long id, String firstName, String lastName, String surname, Gender gender, int passportChapter, int passportNum, LocalDate birthDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,9 +48,7 @@ public class Person {
      * @return age that is calculated with birthdate and today date
      */
     public int getAge() {
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(birthDate);
-        LocalDate d1 = LocalDate.of(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
+        LocalDate d1 = birthDate;
         LocalDate d2 = LocalDate.now();
         Duration diff = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
         long diffDays = diff.toDays();
