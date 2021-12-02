@@ -12,12 +12,7 @@ import temkarus0070.firstTask.models.contract.WireInternetContract;
 import temkarus0070.firstTask.repository.ContractRepositoryImpl;
 
 import java.nio.file.Path;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Optional;
 
 
 public class CSVReaderTest {
