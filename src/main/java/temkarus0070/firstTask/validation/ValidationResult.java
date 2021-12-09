@@ -5,7 +5,9 @@ public class ValidationResult {
     private String text;
     private String firstErrorField;
 
-    public ValidationResult(){}
+    public ValidationResult(){
+        status=Status.OK;
+    }
 
     public ValidationResult(Status status, String text, String firstErrorField) {
         this.status = status;
