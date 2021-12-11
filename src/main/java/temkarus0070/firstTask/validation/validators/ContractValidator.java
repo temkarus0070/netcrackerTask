@@ -13,7 +13,7 @@ public class ContractValidator implements Validator<Contract> {
         if (!checkContractDates(contract)) {
             validationResult.setStatus(Status.ERROR);
             validationResult.setFirstErrorField("beginDate || endDate");
-            validationResult.setText("beginDate or endDate equals to null or beginDate more than endDate");
+            validationResult.setText("beginDate or endDate equals to null or beginDate greater than endDate");
         }
         return validationResult;
     }

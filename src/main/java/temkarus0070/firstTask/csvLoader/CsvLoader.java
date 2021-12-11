@@ -63,7 +63,6 @@ public class CsvLoader {
                     String[] passportDate = lines[5].split(" ");
                     Person person = new Person(-1, fullname[1], fullname[0], fullname[2], Gender.valueOf(lines[3]), Integer.parseInt(passportDate[0]), Integer.parseInt(passportDate[1]), LocalDate.parse(lines[4], dateTimeFormatter));
                     contract.setContractOwner(person);
-                    contractRepository.add(contract);
                 }
                 for (Validator validator:validators){
                     if(validator.isFitToType(contract)) {
@@ -74,6 +73,7 @@ public class CsvLoader {
                         }
                     }
                 }
+                contractRepository.add(contract);
             }
         } catch (IOException | NumberFormatException fileReadError) {
             throw new CsvReadException(fileReadError);
