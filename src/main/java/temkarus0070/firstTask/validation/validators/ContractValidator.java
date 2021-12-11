@@ -18,12 +18,17 @@ public class ContractValidator implements Validator<Contract> {
             return validationResult;
     }
 
+    @Override
+    public boolean isFitToType(Contract contract) {
+        return true;
+    }
+
     private boolean checkContractDates(Contract contract){
         boolean haveNulls=contract.getBeginDate()==null || contract.getEndDate()==null;
         boolean correctDates=true;
         if(!haveNulls)
             correctDates=contract.getBeginDate().compareTo(contract.getEndDate())<=0;
-        return haveNulls&&correctDates;
+        return !haveNulls&&correctDates;
     }
 
 }

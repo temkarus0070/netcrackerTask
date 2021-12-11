@@ -27,7 +27,7 @@ public class ContractOwnerValidator implements Validator<Contract> {
             validationResult.setFirstErrorField("contractOwner.lastName");
         } else if (!validatePassportChapter(person)) {
             validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Contract owner passport should have correct passport chapter: more or equal to 1991 and less or equal to current Year");
+            validationResult.setText("Contract owner passport should have correct passport chapter:greater or equal to 1991 and less or equal to current Year");
             validationResult.setFirstErrorField("contractOwner.passportChapter");
         } else if (!validatePassportNum(person)) {
             validationResult.setStatus(Status.ERROR);
@@ -46,6 +46,11 @@ public class ContractOwnerValidator implements Validator<Contract> {
         return validationResult;
     }
 
+    @Override
+    public boolean isFitToType(Contract contract) {
+        return true;
+    }
+
     private boolean validatePassportChapter(Person person) {
         return person.getPassportChapter() >= 1991 && person.getPassportChapter() <= LocalDate.now().getYear();
     }
@@ -61,7 +66,7 @@ public class ContractOwnerValidator implements Validator<Contract> {
         if (!hasNullDate) {
             isCorrectDate = person.getBirthDate().compareTo(LocalDate.now()) < 0;
         }
-        return hasNullDate && isCorrectDate;
+        return !hasNullDate && isCorrectDate;
     }
 
 }

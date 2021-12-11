@@ -1,5 +1,6 @@
 package temkarus0070.firstTask.validation.validators;
 
+import temkarus0070.firstTask.models.contract.Contract;
 import temkarus0070.firstTask.models.contract.MobileConnectionContract;
 import temkarus0070.firstTask.validation.Status;
 import temkarus0070.firstTask.validation.ValidationResult;
@@ -9,35 +10,37 @@ public class MobileContractValidator implements Validator<MobileConnectionContra
 
     @Override
     public ValidationResult validate(MobileConnectionContract contract) {
-        ValidationResult validationResult=new ValidationResult();
-        validationResult.setStatus(Status.OK);
-        if(!validateMinutesCount(contract)){
+        ValidationResult validationResult = new ValidationResult();
+        if (!validateMinutesCount(contract)) {
             validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Minutes count should be more or equal to zero");
+            validationResult.setText("Minutes count should be greater or equal to zero");
             validationResult.setFirstErrorField("minutesCount");
-        }
-        else if(!validateSmsCount(contract)){
+        } else if (!validateSmsCount(contract)) {
             validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Sms count should be more or equal to zero");
+            validationResult.setText("Sms count should be greater or equal to zero");
             validationResult.setFirstErrorField("smsCount");
-        }
-        else if(!validateGigabytesTraffic(contract)){
+        } else if (!validateGigabytesTraffic(contract)) {
             validationResult.setStatus(Status.ERROR);
-            validationResult.setText("traffic gigabytes should be more or equal to zero");
+            validationResult.setText("traffic gigabytes should be greater or equal to zero");
             validationResult.setFirstErrorField("gigabytesTraffic");
         }
         return validationResult;
     }
 
-    private boolean validateMinutesCount(MobileConnectionContract mobileConnectionContract){
-        return mobileConnectionContract.getMinutesCount()>=0;
+    @Override
+    public boolean isFitToType(Contract contract) {
+        return contract instanceof MobileConnectionContract;
     }
 
-    private boolean validateSmsCount(MobileConnectionContract mobileConnectionContract){
-        return mobileConnectionContract.getSmsCount()>=0;
+    private boolean validateMinutesCount(MobileConnectionContract mobileConnectionContract) {
+        return mobileConnectionContract.getMinutesCount() >= 0;
     }
 
-    private boolean validateGigabytesTraffic(MobileConnectionContract mobileConnectionContract){
-        return mobileConnectionContract.getGigabytesTraffic()>=0;
+    private boolean validateSmsCount(MobileConnectionContract mobileConnectionContract) {
+        return mobileConnectionContract.getSmsCount() >= 0;
+    }
+
+    private boolean validateGigabytesTraffic(MobileConnectionContract mobileConnectionContract) {
+        return mobileConnectionContract.getGigabytesTraffic() >= 0;
     }
 }

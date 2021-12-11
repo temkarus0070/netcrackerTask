@@ -19,12 +19,14 @@ public class TestPersonCustomFunctions {
     @Test
     public void checkAge() {
         Person person = new Person();
-        LocalDate localDate = LocalDate.of(2000, 1, 1);
+        LocalDate localDate = LocalDate.now();
+        localDate=localDate.minusYears(21);
         person.setBirthDate(localDate);
         Assert.assertEquals(person.getAge(), 21);
 
         person = new Person();
-        localDate = LocalDate.of(2000, 12, 12);
+        localDate = LocalDate.now();
+        localDate=localDate.minusYears(20);
         person.setBirthDate(localDate);
         Assert.assertEquals(person.getAge(), 20);
     }
