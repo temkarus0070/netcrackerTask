@@ -37,9 +37,8 @@ public class ContractOwnerValidator implements Validator<Contract> {
             validationResult.setStatus(Status.ERROR);
             validationResult.setText("Contract owner birth date should be before current date and shouldn't be null");
             validationResult.setFirstErrorField("contractOwner.birthDate");
-        }
-        else if(person.getAge()<18){
-           validationResult.setStatus(Status.ERROR);
+        } else if (person.getAge() < 18) {
+            validationResult.setStatus(Status.ERROR);
             validationResult.setText("Contract owner should be older than 17");
             validationResult.setFirstErrorField("contractOwner.birthDate");
         }

@@ -15,111 +15,111 @@ public class ValidatorsTest {
 
 
     @Test
-    public void testContractValidation(){
-        ContractValidator contractValidator=new ContractValidator();
-        TelevisionValidator televisionValidator=new TelevisionValidator();
-        ValidationResult validationResult=new ValidationResult();
-        Person person=new Person();
-        person.setBirthDate(LocalDate.of(1990,1,2));
+    public void testContractValidation() {
+        ContractValidator contractValidator = new ContractValidator();
+        TelevisionValidator televisionValidator = new TelevisionValidator();
+        ValidationResult validationResult = new ValidationResult();
+        Person person = new Person();
+        person.setBirthDate(LocalDate.of(1990, 1, 2));
         person.setFirstName("Vasya");
         person.setLastName("Pupkin");
         person.setPassportChapter(2014);
         person.setPassportChapter(199999);
-        MobileConnectionContract mobileConnectionContract=new MobileConnectionContract();
-        mobileConnectionContract.setBeginDate(LocalDate.of(2021,1,2));
-        mobileConnectionContract.setEndDate(LocalDate.of(2020,1,2));
-        validationResult=contractValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"beginDate || endDate");
+        MobileConnectionContract mobileConnectionContract = new MobileConnectionContract();
+        mobileConnectionContract.setBeginDate(LocalDate.of(2021, 1, 2));
+        mobileConnectionContract.setEndDate(LocalDate.of(2020, 1, 2));
+        validationResult = contractValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "beginDate || endDate");
     }
 
     @Test
-    public void testInternetContractValidator(){
-        InternetContractValidator internetContractValidator=new InternetContractValidator();
-        ValidationResult validationResult=new ValidationResult();
-        Person person=new Person();
-        person.setBirthDate(LocalDate.of(1990,1,2));
+    public void testInternetContractValidator() {
+        InternetContractValidator internetContractValidator = new InternetContractValidator();
+        ValidationResult validationResult = new ValidationResult();
+        Person person = new Person();
+        person.setBirthDate(LocalDate.of(1990, 1, 2));
         person.setFirstName("Vasya");
         person.setLastName("Pupkin");
         person.setPassportChapter(2014);
         person.setPassportChapter(199999);
-        WireInternetContract wireInternetContract=new WireInternetContract();
+        WireInternetContract wireInternetContract = new WireInternetContract();
         wireInternetContract.setContractOwner(person);
         wireInternetContract.setConnectionSpeed(-100);
-        validationResult=internetContractValidator.validate(wireInternetContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"connectionSpeed");
+        validationResult = internetContractValidator.validate(wireInternetContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "connectionSpeed");
         wireInternetContract.setConnectionSpeed(100);
-        validationResult=internetContractValidator.validate(wireInternetContract);
+        validationResult = internetContractValidator.validate(wireInternetContract);
         Assert.assertEquals(validationResult.getStatus(), Status.OK);
     }
 
     @Test
-    public void testMobileContractValidation(){
-        MobileContractValidator mobileConnectionContractValidator=new MobileContractValidator();
-        ValidationResult validationResult=new ValidationResult();
-        Person person=new Person();
-        person.setBirthDate(LocalDate.of(1990,1,2));
+    public void testMobileContractValidation() {
+        MobileContractValidator mobileConnectionContractValidator = new MobileContractValidator();
+        ValidationResult validationResult = new ValidationResult();
+        Person person = new Person();
+        person.setBirthDate(LocalDate.of(1990, 1, 2));
         person.setFirstName("Vasya");
         person.setLastName("Pupkin");
         person.setPassportChapter(2014);
         person.setPassportChapter(199999);
-        MobileConnectionContract mobileConnectionContract=new MobileConnectionContract();
-        mobileConnectionContract.setBeginDate(LocalDate.of(2021,1,2));
-        mobileConnectionContract.setEndDate(LocalDate.of(2020,1,2));
+        MobileConnectionContract mobileConnectionContract = new MobileConnectionContract();
+        mobileConnectionContract.setBeginDate(LocalDate.of(2021, 1, 2));
+        mobileConnectionContract.setEndDate(LocalDate.of(2020, 1, 2));
         mobileConnectionContract.setMinutesCount(-1);
         mobileConnectionContract.setContractOwner(person);
-        validationResult=mobileConnectionContractValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"minutesCount");
+        validationResult = mobileConnectionContractValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "minutesCount");
         mobileConnectionContract.setMinutesCount(100);
         mobileConnectionContract.setSmsCount(-300);
         mobileConnectionContract.setGigabytesTraffic(100);
-        validationResult=mobileConnectionContractValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"smsCount");
+        validationResult = mobileConnectionContractValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "smsCount");
         mobileConnectionContract.setSmsCount(100);
         mobileConnectionContract.setGigabytesTraffic(-80);
-        validationResult=mobileConnectionContractValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"gigabytesTraffic");
+        validationResult = mobileConnectionContractValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "gigabytesTraffic");
     }
 
     @Test
-    public void testTelevisionContract(){
-        ValidationResult validationResult=new ValidationResult();
-        TelevisionValidator televisionValidator=new TelevisionValidator();
-        Person person=new Person();
-        person.setBirthDate(LocalDate.of(1990,1,2));
+    public void testTelevisionContract() {
+        ValidationResult validationResult = new ValidationResult();
+        TelevisionValidator televisionValidator = new TelevisionValidator();
+        Person person = new Person();
+        person.setBirthDate(LocalDate.of(1990, 1, 2));
         person.setFirstName("Vasya");
         person.setLastName("Pupkin");
         person.setPassportChapter(2014);
         person.setPassportChapter(199999);
-        DigitalTelevisionContract digitalTelevisionContract=new DigitalTelevisionContract();
-        digitalTelevisionContract.setBeginDate(LocalDate.of(2021,1,2));
-        digitalTelevisionContract.setEndDate(LocalDate.of(2020,1,2));
+        DigitalTelevisionContract digitalTelevisionContract = new DigitalTelevisionContract();
+        digitalTelevisionContract.setBeginDate(LocalDate.of(2021, 1, 2));
+        digitalTelevisionContract.setEndDate(LocalDate.of(2020, 1, 2));
         digitalTelevisionContract.setChannelsPackage(null);
-        validationResult=televisionValidator.validate(digitalTelevisionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"channelsPackage");
+        validationResult = televisionValidator.validate(digitalTelevisionContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "channelsPackage");
     }
 
     @Test
-    public void testPersonValidation(){
-        ContractOwnerValidator contractOwnerValidator=new ContractOwnerValidator();
-        ValidationResult validationResult=new ValidationResult();
-        Person person=new Person();
-        person.setBirthDate(LocalDate.of(1990,1,2));
+    public void testPersonValidation() {
+        ContractOwnerValidator contractOwnerValidator = new ContractOwnerValidator();
+        ValidationResult validationResult = new ValidationResult();
+        Person person = new Person();
+        person.setBirthDate(LocalDate.of(1990, 1, 2));
         person.setFirstName("Vasya");
         person.setLastName("Pupkin");
         person.setPassportChapter(0000);
         person.setPassportNum(199999);
-        MobileConnectionContract mobileConnectionContract=new MobileConnectionContract();
+        MobileConnectionContract mobileConnectionContract = new MobileConnectionContract();
         mobileConnectionContract.setMinutesCount(-1);
         mobileConnectionContract.setContractOwner(person);
-        validationResult=contractOwnerValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"contractOwner.passportChapter");
+        validationResult = contractOwnerValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "contractOwner.passportChapter");
         person.setPassportChapter(2014);
         person.setBirthDate(null);
-        validationResult=contractOwnerValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"contractOwner.birthDate");
-        person.setBirthDate(LocalDate.of(2020,1,2));
-        validationResult=contractOwnerValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(),"contractOwner.birthDate");
+        validationResult = contractOwnerValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "contractOwner.birthDate");
+        person.setBirthDate(LocalDate.of(2020, 1, 2));
+        validationResult = contractOwnerValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "contractOwner.birthDate");
     }
 
 

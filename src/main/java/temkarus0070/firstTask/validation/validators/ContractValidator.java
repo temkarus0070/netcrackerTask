@@ -9,13 +9,13 @@ import temkarus0070.firstTask.validation.Validator;
 public class ContractValidator implements Validator<Contract> {
     @Override
     public ValidationResult validate(Contract contract) {
-        ValidationResult validationResult=new ValidationResult();
-        if(!checkContractDates(contract)) {
+        ValidationResult validationResult = new ValidationResult();
+        if (!checkContractDates(contract)) {
             validationResult.setStatus(Status.ERROR);
             validationResult.setFirstErrorField("beginDate || endDate");
             validationResult.setText("beginDate or endDate equals to null or beginDate more than endDate");
         }
-            return validationResult;
+        return validationResult;
     }
 
     @Override
@@ -23,12 +23,12 @@ public class ContractValidator implements Validator<Contract> {
         return true;
     }
 
-    private boolean checkContractDates(Contract contract){
-        boolean haveNulls=contract.getBeginDate()==null || contract.getEndDate()==null;
-        boolean correctDates=true;
-        if(!haveNulls)
-            correctDates=contract.getBeginDate().compareTo(contract.getEndDate())<=0;
-        return !haveNulls&&correctDates;
+    private boolean checkContractDates(Contract contract) {
+        boolean haveNulls = contract.getBeginDate() == null || contract.getEndDate() == null;
+        boolean correctDates = true;
+        if (!haveNulls)
+            correctDates = contract.getBeginDate().compareTo(contract.getEndDate()) <= 0;
+        return !haveNulls && correctDates;
     }
 
 }
