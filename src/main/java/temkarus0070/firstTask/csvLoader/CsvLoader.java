@@ -54,8 +54,8 @@ public class CsvLoader {
                 if (contract == null) {
                     throw new CsvReadException("chat type not found exception");
                 } else {
-                    contract.setBeginDate(LocalDate.parse(lines[0], dateTimeFormatter));
-                    contract.setEndDate(LocalDate.parse(lines[1], dateTimeFormatter));
+                    contract.setBeginDate(lines[0].equals("")?null:LocalDate.parse(lines[0], dateTimeFormatter));
+                    contract.setEndDate(lines[1].equals("")?null:LocalDate.parse(lines[1], dateTimeFormatter));
                     String[] fullname =new String[3];
                     String[] nameLines=lines[2].split(" ");
                     for(int i=0;i<nameLines.length;i++){

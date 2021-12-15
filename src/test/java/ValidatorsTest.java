@@ -28,13 +28,13 @@ public class ValidatorsTest {
         mobileConnectionContract.setBeginDate(LocalDate.of(2021, 1, 2));
         mobileConnectionContract.setEndDate(LocalDate.of(2020, 1, 2));
         validationResult = contractValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getStatus(),Status.WARNING);
+        Assert.assertEquals(validationResult.getStatus(), Status.WARNING);
         Assert.assertEquals(validationResult.getFirstErrorField(), "beginDate && endDate");
 
         mobileConnectionContract.setBeginDate(null);
         mobileConnectionContract.setEndDate(LocalDate.of(2020, 1, 2));
         validationResult = contractValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getStatus(),Status.ERROR);
+        Assert.assertEquals(validationResult.getStatus(), Status.ERROR);
         Assert.assertEquals(validationResult.getFirstErrorField(), "beginDate");
     }
 
@@ -52,11 +52,11 @@ public class ValidatorsTest {
         wireInternetContract.setContractOwner(person);
         wireInternetContract.setConnectionSpeed(-100);
         validationResult = internetContractValidator.validate(wireInternetContract);
-        Assert.assertEquals(validationResult.getStatus(),Status.ERROR);
+        Assert.assertEquals(validationResult.getStatus(), Status.ERROR);
         Assert.assertEquals(validationResult.getFirstErrorField(), "connectionSpeed");
         wireInternetContract.setConnectionSpeed(0);
         validationResult = internetContractValidator.validate(wireInternetContract);
-        Assert.assertEquals(validationResult.getStatus(),Status.WARNING);
+        Assert.assertEquals(validationResult.getStatus(), Status.WARNING);
         Assert.assertEquals(validationResult.getFirstErrorField(), "connectionSpeed");
         wireInternetContract.setConnectionSpeed(100);
         validationResult = internetContractValidator.validate(wireInternetContract);
@@ -123,6 +123,7 @@ public class ValidatorsTest {
         person.setBirthDate(LocalDate.of(1990, 1, 2));
         person.setFirstName("Vasya");
         person.setLastName("Pupkin");
+        person.setSurname("Pupkinovich");
         person.setPassportChapter(0000);
         person.setPassportNum(199999);
         MobileConnectionContract mobileConnectionContract = new MobileConnectionContract();

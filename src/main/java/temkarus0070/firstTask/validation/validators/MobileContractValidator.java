@@ -23,15 +23,15 @@ public class MobileContractValidator implements Validator<MobileConnectionContra
             validationResult.setStatus(Status.WARNING);
             validationResult.setText("Minutes count should be greater than 0");
             validationResult.setFirstErrorField("minutesCount");
-        } else if (contract.getMinutesCount()<0) {
+        } else if (contract.getMinutesCount() < 0) {
             validationResult.setStatus(Status.ERROR);
             validationResult.setText("Minutes count shouldn't be less than 0");
             validationResult.setFirstErrorField("minutesCount");
-        } else if (contract.getSmsCount()<0) {
+        } else if (contract.getSmsCount() < 0) {
             validationResult.setStatus(Status.ERROR);
             validationResult.setText("Sms count shouldn't be less than 0");
             validationResult.setFirstErrorField("smsCount");
-        } else if (contract.getGigabytesTraffic()<0) {
+        } else if (contract.getGigabytesTraffic() < 0) {
             validationResult.setStatus(Status.ERROR);
             validationResult.setText("traffic gigabytes shouldn't be less than 0");
             validationResult.setFirstErrorField("gigabytesTraffic");
