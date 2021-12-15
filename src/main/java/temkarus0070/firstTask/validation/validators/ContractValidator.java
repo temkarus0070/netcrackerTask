@@ -10,10 +10,23 @@ public class ContractValidator implements Validator<Contract> {
     @Override
     public ValidationResult validate(Contract contract) {
         ValidationResult validationResult = new ValidationResult();
-        if (!checkContractDates(contract)) {
+        if (contract.getBeginDate() == null) {
             validationResult.setStatus(Status.ERROR);
-            validationResult.setFirstErrorField("beginDate || endDate");
-            validationResult.setText("beginDate or endDate equals to null or beginDate greater than endDate");
+            validationResult.setFirstErrorField("beginDate");
+            validationResult.setText("beginDate is equal to null ");
+        } else if (contract.getBeginDate() != null) {
+            if (contract.getEndDate() != null) {
+                if (contract.getBeginDate().compareTo(contract.getEndDate()) > 0) {
+                    validationResult.setStatus(Status.WARNING);
+                    validationResult.setFirstErrorField("beginDate && endDate");
+                    validationResult.setText("beginDate is greater than  endDate ");
+                }
+            }
+        }
+        else if(contract.getEndDate()==null){
+            validationResult.setStatus(Status.ERROR);
+            validationResult.setFirstErrorField("endDate");
+            validationResult.setText("endDate is equal to null ");
         }
         return validationResult;
     }
@@ -23,12 +36,5 @@ public class ContractValidator implements Validator<Contract> {
         return true;
     }
 
-    private boolean checkContractDates(Contract contract) {
-        boolean haveNulls = contract.getBeginDate() == null || contract.getEndDate() == null;
-        boolean correctDates = true;
-        if (!haveNulls)
-            correctDates = contract.getBeginDate().compareTo(contract.getEndDate()) <= 0;
-        return !haveNulls && correctDates;
-    }
 
 }

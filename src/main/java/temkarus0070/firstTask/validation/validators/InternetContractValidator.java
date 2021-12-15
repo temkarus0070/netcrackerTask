@@ -12,7 +12,11 @@ public class InternetContractValidator implements Validator<WireInternetContract
         ValidationResult validationResult = new ValidationResult();
         if (contract.getConnectionSpeed() < 0) {
             validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Internet speed should be greater or equal to zero");
+            validationResult.setText("Internet speed shouldn't be less than 0");
+            validationResult.setFirstErrorField("connectionSpeed");
+        } else if (contract.getConnectionSpeed() == 0) {
+            validationResult.setStatus(Status.WARNING);
+            validationResult.setText("Internet speed should be greater than zero");
             validationResult.setFirstErrorField("connectionSpeed");
         }
         return validationResult;

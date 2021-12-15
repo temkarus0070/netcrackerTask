@@ -19,10 +19,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CsvLoader {
     public void CsvLoad(ContractRepositoryImpl contractRepository, String filePath) throws CsvReadException {
@@ -59,8 +56,12 @@ public class CsvLoader {
                 } else {
                     contract.setBeginDate(LocalDate.parse(lines[0], dateTimeFormatter));
                     contract.setEndDate(LocalDate.parse(lines[1], dateTimeFormatter));
-                    String[] fullname = lines[2].split(" ");
-                    String[] passportDate = lines[5].split(" ");
+                    String[] fullname =new String[3];
+                    String[] nameLines=lines[2].split(" ");
+                    for(int i=0;i<nameLines.length;i++){
+                        fullname[i]=nameLines[i];
+                    }
+                    String[] passportDate =lines[5].split(" ");
                     Person person = new Person(-1, fullname[1], fullname[0], fullname[2], Gender.valueOf(lines[3]), Integer.parseInt(passportDate[0]), Integer.parseInt(passportDate[1]), LocalDate.parse(lines[4], dateTimeFormatter));
                     contract.setContractOwner(person);
                 }
@@ -70,6 +71,9 @@ public class CsvLoader {
                         if (validationResult.getStatus() == Status.ERROR) {
                             String error = String.format("error:%s \n field:%s", validationResult.getText(), validationResult.getFirstErrorField());
                             throw new CsvReadException(new ContractValidationException(error));
+                        }
+                        else if(validationResult.getStatus()==Status.WARNING){
+                            System.out.println(validationResult.getText());
                         }
                     }
                 }
@@ -83,6 +87,7 @@ public class CsvLoader {
 
     private HashMap<String, String> getAdditionalParams(String[] additionalParams) {
         return Arrays.stream(additionalParams)
+                .filter(e->e.length()>0)
                 .map(line -> {
                             String[] lines = line.split("=");
                             return Map.entry(lines[0], lines[1]);

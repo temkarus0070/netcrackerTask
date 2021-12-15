@@ -17,7 +17,6 @@ public class ValidatorsTest {
     @Test
     public void testContractValidation() {
         ContractValidator contractValidator = new ContractValidator();
-        TelevisionValidator televisionValidator = new TelevisionValidator();
         ValidationResult validationResult = new ValidationResult();
         Person person = new Person();
         person.setBirthDate(LocalDate.of(1990, 1, 2));
@@ -29,7 +28,14 @@ public class ValidatorsTest {
         mobileConnectionContract.setBeginDate(LocalDate.of(2021, 1, 2));
         mobileConnectionContract.setEndDate(LocalDate.of(2020, 1, 2));
         validationResult = contractValidator.validate(mobileConnectionContract);
-        Assert.assertEquals(validationResult.getFirstErrorField(), "beginDate || endDate");
+        Assert.assertEquals(validationResult.getStatus(),Status.WARNING);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "beginDate && endDate");
+
+        mobileConnectionContract.setBeginDate(null);
+        mobileConnectionContract.setEndDate(LocalDate.of(2020, 1, 2));
+        validationResult = contractValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getStatus(),Status.ERROR);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "beginDate");
     }
 
     @Test
@@ -46,6 +52,11 @@ public class ValidatorsTest {
         wireInternetContract.setContractOwner(person);
         wireInternetContract.setConnectionSpeed(-100);
         validationResult = internetContractValidator.validate(wireInternetContract);
+        Assert.assertEquals(validationResult.getStatus(),Status.ERROR);
+        Assert.assertEquals(validationResult.getFirstErrorField(), "connectionSpeed");
+        wireInternetContract.setConnectionSpeed(0);
+        validationResult = internetContractValidator.validate(wireInternetContract);
+        Assert.assertEquals(validationResult.getStatus(),Status.WARNING);
         Assert.assertEquals(validationResult.getFirstErrorField(), "connectionSpeed");
         wireInternetContract.setConnectionSpeed(100);
         validationResult = internetContractValidator.validate(wireInternetContract);
@@ -65,18 +76,23 @@ public class ValidatorsTest {
         MobileConnectionContract mobileConnectionContract = new MobileConnectionContract();
         mobileConnectionContract.setBeginDate(LocalDate.of(2021, 1, 2));
         mobileConnectionContract.setEndDate(LocalDate.of(2020, 1, 2));
-        mobileConnectionContract.setMinutesCount(-1);
+        mobileConnectionContract.setMinutesCount(0);
+        mobileConnectionContract.setGigabytesTraffic(100);
+        mobileConnectionContract.setSmsCount(300);
         mobileConnectionContract.setContractOwner(person);
         validationResult = mobileConnectionContractValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getStatus(), Status.WARNING);
         Assert.assertEquals(validationResult.getFirstErrorField(), "minutesCount");
         mobileConnectionContract.setMinutesCount(100);
         mobileConnectionContract.setSmsCount(-300);
-        mobileConnectionContract.setGigabytesTraffic(100);
+
         validationResult = mobileConnectionContractValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getStatus(), Status.ERROR);
         Assert.assertEquals(validationResult.getFirstErrorField(), "smsCount");
         mobileConnectionContract.setSmsCount(100);
         mobileConnectionContract.setGigabytesTraffic(-80);
         validationResult = mobileConnectionContractValidator.validate(mobileConnectionContract);
+        Assert.assertEquals(validationResult.getStatus(), Status.ERROR);
         Assert.assertEquals(validationResult.getFirstErrorField(), "gigabytesTraffic");
     }
 
@@ -95,6 +111,7 @@ public class ValidatorsTest {
         digitalTelevisionContract.setEndDate(LocalDate.of(2020, 1, 2));
         digitalTelevisionContract.setChannelsPackage(null);
         validationResult = televisionValidator.validate(digitalTelevisionContract);
+        Assert.assertEquals(validationResult.getStatus(), Status.WARNING);
         Assert.assertEquals(validationResult.getFirstErrorField(), "channelsPackage");
     }
 

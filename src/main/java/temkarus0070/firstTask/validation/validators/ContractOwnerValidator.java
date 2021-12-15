@@ -17,30 +17,39 @@ public class ContractOwnerValidator implements Validator<Contract> {
             validationResult.setStatus(Status.ERROR);
             validationResult.setText("Contract owner is equal to null");
             validationResult.setFirstErrorField("contractOwner");
-        } else if (person.getFirstName() == null) {
+        } else if (person.getFirstName() == null || person.getFirstName().equals("")) {
             validationResult.setStatus(Status.ERROR);
             validationResult.setText("Contract owner should have firstName");
             validationResult.setFirstErrorField("contractOwner.firstName");
-        } else if (person.getLastName() == null) {
-            validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Contract owner should have lastName");
-            validationResult.setFirstErrorField("contractOwner.lastName");
-        } else if (!validatePassportChapter(person)) {
-            validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Contract owner passport should have correct passport chapter:greater or equal to 1991 and less or equal to current Year");
-            validationResult.setFirstErrorField("contractOwner.passportChapter");
-        } else if (!validatePassportNum(person)) {
-            validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Contract owner passport should have correct passport number consist of 6 digits");
-            validationResult.setFirstErrorField("contractOwner.passportNum");
-        } else if (!validatePersonBirthDate(person)) {
-            validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Contract owner birth date should be before current date and shouldn't be null");
-            validationResult.setFirstErrorField("contractOwner.birthDate");
-        } else if (person.getAge() < 18) {
-            validationResult.setStatus(Status.ERROR);
-            validationResult.setText("Contract owner should be older than 17");
-            validationResult.setFirstErrorField("contractOwner.birthDate");
+        }
+        if (person != null) {
+            if (person.getLastName() == null || person.getLastName().equals("")) {
+                validationResult.setStatus(Status.WARNING);
+                validationResult.setText("Contract owner should have lastName");
+                validationResult.setFirstErrorField("contractOwner.lastName");
+            }
+            if (person.getSurname() == null || person.getSurname().equals("")) {
+                validationResult.setStatus(Status.WARNING);
+                validationResult.setText("Contract owner should have surname");
+                validationResult.setFirstErrorField("contractOwner.surName");
+            }
+            if (!validatePassportChapter(person)) {
+                validationResult.setStatus(Status.ERROR);
+                validationResult.setText("Contract owner passport should have correct passport chapter:greater or equal to 1991 and less or equal to current Year");
+                validationResult.setFirstErrorField("contractOwner.passportChapter");
+            } else if (!validatePassportNum(person)) {
+                validationResult.setStatus(Status.ERROR);
+                validationResult.setText("Contract owner passport should have correct passport number consist of 6 digits");
+                validationResult.setFirstErrorField("contractOwner.passportNum");
+            } else if (!validatePersonBirthDate(person)) {
+                validationResult.setStatus(Status.WARNING);
+                validationResult.setText("Contract owner birth date should be before current date and shouldn't be null");
+                validationResult.setFirstErrorField("contractOwner.birthDate");
+            } else if (person.getAge() < 18) {
+                validationResult.setStatus(Status.ERROR);
+                validationResult.setText("Contract owner should be older than 17");
+                validationResult.setFirstErrorField("contractOwner.birthDate");
+            }
         }
         return validationResult;
     }

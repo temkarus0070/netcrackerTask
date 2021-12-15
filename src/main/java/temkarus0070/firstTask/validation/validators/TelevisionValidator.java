@@ -12,7 +12,7 @@ public class TelevisionValidator implements Validator<DigitalTelevisionContract>
         ValidationResult validationResult = new ValidationResult();
 
         if (contract.getChannelsPackage() == null || contract.getChannelsPackage().length() == 0) {
-            validationResult.setStatus(Status.ERROR);
+            validationResult.setStatus(Status.WARNING);
             validationResult.setFirstErrorField("channelsPackage");
             validationResult.setText("contract should have channels package");
 
