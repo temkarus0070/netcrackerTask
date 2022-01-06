@@ -7,14 +7,10 @@ import temkarus0070.firstTask.models.contract.DigitalTelevisionContract;
 import temkarus0070.firstTask.models.contract.MobileConnectionContract;
 import temkarus0070.firstTask.models.contract.WireInternetContract;
 import temkarus0070.firstTask.repository.ContractRepositoryImpl;
-import temkarus0070.firstTask.repository.Repository;
-import temkarus0070.firstTask.sort.BubbleSort;
-import temkarus0070.firstTask.sort.QuickSort;
+import temkarus0070.firstTask.sort.fast.QuickSort;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.List;
 
 public class SortTest {
     @Test
@@ -30,7 +26,8 @@ public class SortTest {
         WireInternetContract wireInternetContract = new WireInternetContract(100, 4, LocalDate.of(2018,3,9), LocalDate.of(2024,8,9), 444, veryOldPerson);
         contractRepository.add(wireInternetContract, mobileConnectionContract, digitalTelevisionContract,youngestPersonMobileConnectionContract);
 
-        contractRepository.sort(new QuickSort(), new Comparator<Contract>() {
+        contractRepository.setSorter(new QuickSort());
+        contractRepository.sort( new Comparator<Contract>() {
             @Override
             public int compare(Contract o1, Contract o2) {
                 if( o1.getContractOwner().getAge()>o2.getContractOwner().getAge())

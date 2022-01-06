@@ -7,6 +7,9 @@ import temkarus0070.firstTask.validation.ValidationResult;
 import temkarus0070.firstTask.validation.Validator;
 
 public class ContractValidator implements Validator<Contract> {
+    public ContractValidator() {
+    }
+
     @Override
     public ValidationResult validate(Contract contract) {
         ValidationResult validationResult = new ValidationResult();

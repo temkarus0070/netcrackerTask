@@ -7,6 +7,9 @@ import temkarus0070.firstTask.validation.ValidationResult;
 import temkarus0070.firstTask.validation.Validator;
 
 public class InternetContractValidator implements Validator<WireInternetContract> {
+    public InternetContractValidator() {
+    }
+
     @Override
     public ValidationResult validate(WireInternetContract contract) {
         ValidationResult validationResult = new ValidationResult();

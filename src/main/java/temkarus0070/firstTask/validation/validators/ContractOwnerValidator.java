@@ -9,6 +9,9 @@ import temkarus0070.firstTask.validation.Validator;
 import java.time.LocalDate;
 
 public class ContractOwnerValidator implements Validator<Contract> {
+    public ContractOwnerValidator() {
+    }
+
     @Override
     public ValidationResult validate(Contract contract) {
         ValidationResult validationResult = new ValidationResult();

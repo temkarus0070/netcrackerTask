@@ -11,6 +11,8 @@ public class BubbleSort implements ISorter<Contract> {
     private Comparator<Contract> comparator;
     private List<Contract> list;
 
+    public BubbleSort() {
+    }
 
     private void swap(int first, int second, List<Contract> list) {
         Contract temp = list.get(first);

@@ -1,6 +1,7 @@
 package temkarus0070.firstTask.repository;
 
 import temkarus0070.firstTask.ISorter;
+import temkarus0070.firstTask.di.AutoInjectable;
 import temkarus0070.firstTask.models.contract.Contract;
 
 import java.util.Arrays;
@@ -24,6 +25,9 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
      * contracts list
      */
     private List<Contract> contracts = new ArrayListImpl();
+
+    @AutoInjectable
+    private ISorter<Contract> sorter;
 
 
     /**
@@ -104,8 +108,12 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
         return contractRepository;
     }
 
+    public void setSorter(ISorter<Contract> sorter) {
+        this.sorter = sorter;
+    }
+
     @Override
-    public void sort(ISorter<Contract> sorter, Comparator<Contract> comparator) {
+    public void sort(Comparator<Contract> comparator) {
         sorter.setList(contracts);
         sorter.setComparator(comparator);
         sorter.sort();

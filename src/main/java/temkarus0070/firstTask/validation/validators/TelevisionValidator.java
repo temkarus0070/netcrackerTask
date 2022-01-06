@@ -7,6 +7,9 @@ import temkarus0070.firstTask.validation.ValidationResult;
 import temkarus0070.firstTask.validation.Validator;
 
 public class TelevisionValidator implements Validator<DigitalTelevisionContract> {
+    public TelevisionValidator() {
+    }
+
     @Override
     public ValidationResult validate(DigitalTelevisionContract contract) {
         ValidationResult validationResult = new ValidationResult();

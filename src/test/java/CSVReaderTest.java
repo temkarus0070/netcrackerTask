@@ -10,9 +10,12 @@ import temkarus0070.firstTask.models.contract.DigitalTelevisionContract;
 import temkarus0070.firstTask.models.contract.MobileConnectionContract;
 import temkarus0070.firstTask.models.contract.WireInternetContract;
 import temkarus0070.firstTask.repository.ContractRepositoryImpl;
+import temkarus0070.firstTask.validation.Validator;
+import temkarus0070.firstTask.validation.validators.*;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.List;
 
 
 public class CSVReaderTest {
@@ -21,6 +24,7 @@ public class CSVReaderTest {
         try {
             Path path = Path.of("src/test/resources/file.csv");
             CsvLoader csvLoader = new CsvLoader();
+            csvLoader.setValidators(List.of(new ContractOwnerValidator(), new ContractValidator(), new InternetContractValidator(), new MobileContractValidator(), new TelevisionValidator()));
             String full = path.toAbsolutePath().toString();
             csvLoader.CsvLoad(new ContractRepositoryImpl(), path.toAbsolutePath().toString());
             Assertions.assertTrue(true);
@@ -36,11 +40,12 @@ public class CSVReaderTest {
             ContractRepositoryImpl contractRepository = new ContractRepositoryImpl();
             Path path = Path.of("src/test/resources/file.csv");
             CsvLoader csvLoader = new CsvLoader();
+            csvLoader.setValidators(List.of(new ContractOwnerValidator(), new ContractValidator(), new InternetContractValidator(), new MobileContractValidator(), new TelevisionValidator()));
             String full = path.toAbsolutePath().toString();
             csvLoader.CsvLoad(contractRepository, path.toAbsolutePath().toString());
             MobileConnectionContract mobileConnectionContract = (MobileConnectionContract) contractRepository.getByIndex(0);
             LocalDate beginContractDate = LocalDate.of(2020, 10, 12);
-            LocalDate endContractDate = LocalDate.of(2022, 10, 12);
+            LocalDate endContractDate = LocalDate.of(2022, 12, 20);
 
             Assert.assertEquals(mobileConnectionContract.getBeginDate(), beginContractDate);
             Assert.assertEquals(mobileConnectionContract.getEndDate(), endContractDate);

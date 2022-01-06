@@ -7,38 +7,36 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.List;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.Stream;
 
-@Configuration(packages = {"temkarus0070.firstTask.sort","temkarus0070.firstTask.validation.validators"})
+@Configuration(packages = {"temkarus0070.firstTask.sort.fast", "temkarus0070.firstTask.validation.validators"})
 public class Injector {
-    public static  <T> T inject(T object) throws IOException, URISyntaxException, InvocationTargetException, InstantiationException, IllegalAccessException, DiException {
+    public static <T> T inject(T object) throws IOException, URISyntaxException, InvocationTargetException, InstantiationException, IllegalAccessException, DiException, NoSuchMethodException {
         final Configuration declaredAnnotation = Injector.class.getDeclaredAnnotation(Configuration.class);
         final String[] packages = declaredAnnotation.packages();
 
-        Class tClass=object.getClass();
-        final Field[] fields = tClass.getFields();
-        List<Class> classList=new ArrayList<>();
-        for (Field field:fields){
+        Class tClass = object.getClass();
+        final Field[] fields = tClass.getDeclaredFields();
+        List<Class> classList = new ArrayList<>();
+        for (Field field : fields) {
             if (field.isAnnotationPresent(AutoInjectable.class)) {
 
-                Class type=field.getType();
+                Class type = field.getType();
 
-                if (classList.size()==0){
-                    classList=getClasses(packages);
+                if (classList.size() == 0) {
+                    classList = getClasses(packages);
                 }
-                if (type.isInstance(Collection.class)) {
-                    injectInCollection(type,classList,field,object);
+                if (Collection.class.isAssignableFrom(type)) {
+                    injectInCollection(type, classList, field, object);
 
-                }
-                else {
-                    injectInSampleType(type,classList,field,object);
+                } else {
+                    injectInSampleType(type, classList, field, object);
                 }
 
             }
@@ -46,52 +44,52 @@ public class Injector {
         return object;
     }
 
-    private static void injectInCollection(Class type,List<Class> classList,Field field,Object object) throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        Collection collection= (Collection) type.getEnclosingConstructor().newInstance();
+    private static void injectInCollection(Class type, List<Class> classList, Field field, Object object) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+        Collection collection = new ArrayList();
         field.setAccessible(true);
-        field.set(object,collection);
-        Class collectionType=((ParameterizedType)type.getGenericSuperclass()).getActualTypeArguments()[0].getClass();
+        field.set(object, collection);
+        ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+        final Type actualTypeArgument = parameterizedType.getActualTypeArguments()[0];
+        String genericTypeName = actualTypeArgument.getTypeName().replaceFirst("<[?].+", "");
         for (Class aClass : classList) {
-            if(aClass.isInstance(collectionType)){
-              collection.add(aClass.getEnclosingConstructor().newInstance());
-            }
+            if (Arrays.stream(aClass.getInterfaces()).filter(e -> e.getName().equals(genericTypeName)).count() > 0 || genericTypeName.equals(aClass.getName()))
+                collection.add(aClass.getConstructor().newInstance());
         }
-
-
     }
 
-    private static void injectInSampleType(Class type,List<Class> classList,Field field,Object object) throws InvocationTargetException, InstantiationException, IllegalAccessException, DiException {
-        int classesCount=0;
+
+    private static void injectInSampleType(Class type, List<Class> classList, Field field, Object object) throws InvocationTargetException, InstantiationException, IllegalAccessException, DiException, NoSuchMethodException {
+        int classesCount = 0;
         for (Class aClass : classList) {
-            if(aClass.isInstance(type)){
+
+            if (type.isAssignableFrom(aClass)) {
                 field.setAccessible(true);
-                field.set(object,aClass.getEnclosingConstructor().newInstance());
+                field.set(object, aClass.getConstructor().newInstance());
                 classesCount++;
             }
         }
-        if (classesCount>1){
-            throw new DiException(String.format("More than 1 class of type %s was found",type.getName()));
-        }
-        else if (classesCount==0){
-            throw new DiException(String.format("Less than 1 class of type %s was found",type.getName()));
+        if (classesCount > 1) {
+            throw new DiException(String.format("More than 1 class of type %s was found", type.getName()));
+        } else if (classesCount == 0) {
+            throw new DiException(String.format("Less than 1 class of type %s was found", type.getName()));
         }
     }
 
 
     public static List<Class> getClasses(String[] packagesName) throws IOException, URISyntaxException {
-        List<Class> classes=new ArrayList<>();
+        List<Class> classes = new ArrayList<>();
         for (String packageName : packagesName) {
-            packageName=packageName.replace(".","/");
-            ClassLoader classLoader=ClassLoader.getSystemClassLoader();
+            packageName = packageName.replace(".", "/");
+            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
             URL resource = classLoader.getResource(packageName);
-            packageName=packageName.replace("/",".");
+            packageName = packageName.replace("/", ".");
             getClasses(resource, classes, packageName);
         }
 
         return classes;
     }
 
-    public static List<Class> getClasses(URL resource,List<Class> classes,String packageName) throws IOException, URISyntaxException {
+    public static List<Class> getClasses(URL resource, List<Class> classes, String packageName) throws IOException, URISyntaxException {
 
 
         String finalPackageName = packageName;
@@ -99,18 +97,16 @@ public class Injector {
                 file -> {
                     if (Files.isDirectory(file)) {
                         try {
-                            getClasses(file.toUri().toURL(),classes,packageName+"."+file.toFile().getName());
+                            getClasses(file.toUri().toURL(), classes, packageName + "." + file.toFile().getName());
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else {
+                    } else {
                         String className = file.toFile().getName();
-                        className=className.replaceFirst("[.]+.+","");
-                        className=finalPackageName +"."+className;
-                        System.out.println(className);
+                        className = className.replaceFirst("[.]+.+", "");
+                        className = finalPackageName + "." + className;
                         try {
                             final Class<?> aClass = Class.forName(className);
                             if (!aClass.isInterface()) {

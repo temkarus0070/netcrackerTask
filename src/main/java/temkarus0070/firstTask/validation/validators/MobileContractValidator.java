@@ -8,6 +8,9 @@ import temkarus0070.firstTask.validation.Validator;
 
 public class MobileContractValidator implements Validator<MobileConnectionContract> {
 
+    public MobileContractValidator() {
+    }
+
     @Override
     public ValidationResult validate(MobileConnectionContract contract) {
         ValidationResult validationResult = new ValidationResult();

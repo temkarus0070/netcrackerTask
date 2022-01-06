@@ -1,4 +1,4 @@
-package temkarus0070.firstTask.sort;
+package temkarus0070.firstTask.sort.fast;
 
 import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
@@ -9,6 +9,9 @@ import java.util.List;
 public class QuickSort implements ISorter<Contract> {
     private List<Contract> list;
     private Comparator<Contract> comparator;
+
+    public QuickSort() {
+    }
 
     private void quickSort(int begin, int end, Comparator<? super Contract> c) {
         if (begin >= end) {

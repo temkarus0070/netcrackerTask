@@ -1,6 +1,7 @@
 package temkarus0070.firstTask.csvLoader;
 
 import au.com.bytecode.opencsv.CSVReader;
+import temkarus0070.firstTask.di.AutoInjectable;
 import temkarus0070.firstTask.exceptions.ContractValidationException;
 import temkarus0070.firstTask.exceptions.CsvReadException;
 import temkarus0070.firstTask.models.Gender;
@@ -22,9 +23,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CsvLoader {
+
+    @AutoInjectable
+    private List<Validator<? extends Contract>> validators;
+
+    public void setValidators(List<Validator<? extends Contract>> validators) {
+        this.validators = validators;
+    }
+
     public void CsvLoad(ContractRepositoryImpl contractRepository, String filePath) throws CsvReadException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        Validator[] validators = new Validator[]{new ContractOwnerValidator(), new ContractValidator(), new InternetContractValidator(), new MobileContractValidator(), new TelevisionValidator()};
+
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath), ';', '"', 1)) {
             String[] lines;
             while ((lines = csvReader.readNext()) != null) {
@@ -52,7 +61,7 @@ public class CsvLoader {
                         break;
                 }
                 if (contract == null) {
-                    throw new CsvReadException("chat type not found exception");
+                    throw new CsvReadException("contract type not found exception");
                 } else {
                     contract.setBeginDate(lines[0].equals("")?null:LocalDate.parse(lines[0], dateTimeFormatter));
                     contract.setEndDate(lines[1].equals("")?null:LocalDate.parse(lines[1], dateTimeFormatter));

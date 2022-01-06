@@ -19,7 +19,7 @@ public interface Repository<T, ID> {
 
     public Repository<T, ID> getByCriterias(Predicate<T>... predicates);
 
-    public void sort(ISorter<T> sorter, Comparator<T> comparator);
+    public void sort( Comparator<T> comparator);
 
 
 }
