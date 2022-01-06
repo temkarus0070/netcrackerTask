@@ -12,7 +12,6 @@ import temkarus0070.firstTask.sort.BubbleSort;
 import temkarus0070.firstTask.sort.QuickSort;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 
@@ -20,14 +19,14 @@ public class SortTest {
     @Test
     public void testSort() {
         ContractRepositoryImpl contractRepository = new ContractRepositoryImpl();
-        Person ivan = new Person(5, "Ivan", "Ivanov", "Ivanovich", Gender.MALE, 2224, 2393, LocalDate.of(2005,9,3));
-        MobileConnectionContract youngestPersonMobileConnectionContract = new MobileConnectionContract(555, 666, 777, 8, LocalDate.of(2021,1,2), LocalDate.of(2023,1,2), 5000, ivan);
-        Person pupkin = new Person(1, "Vasya", "Pupkin", "Ivanovich", Gender.MALE, 111, 1111, LocalDate.of(2000,4,9));
-        MobileConnectionContract mobileConnectionContract = new MobileConnectionContract(444, 0, 88, 1, LocalDate.of(2020,3,9), LocalDate.of(2023,4,9),
+        Person ivan = new Person(5, "Ivan", "Ivanov", "Ivanovich", Gender.MALE, 2224, 2393, Date.valueOf("2005-09-03"));
+        MobileConnectionContract youngestPersonMobileConnectionContract = new MobileConnectionContract(555, 666, 777, 8, Date.valueOf("2021-01-02"), Date.valueOf("2023-01-02"), 5000, ivan);
+        Person pupkin = new Person(1, "Vasya", "Pupkin", "Ivanovich", Gender.MALE, 111, 1111, java.sql.Date.valueOf("2000-04-09"));
+        MobileConnectionContract mobileConnectionContract = new MobileConnectionContract(444, 0, 88, 1, java.sql.Date.valueOf("2020-03-09"), Date.valueOf("2023-04-09"),
                 77, pupkin);
-        DigitalTelevisionContract digitalTelevisionContract = new DigitalTelevisionContract("big", 2, LocalDate.of(2020,4,9), LocalDate.of(2022,4,9), 333, pupkin);
-        Person veryOldPerson = new Person(2, "Elizabeth", "Peterson", "Ivanovna", Gender.FEMALE, 888, 2222, LocalDate.of(1980,4,9));
-        WireInternetContract wireInternetContract = new WireInternetContract(100, 4, LocalDate.of(2018,3,9), LocalDate.of(2024,8,9), 444, veryOldPerson);
+        DigitalTelevisionContract digitalTelevisionContract = new DigitalTelevisionContract("big", 2, java.sql.Date.valueOf("2020-04-09"), java.sql.Date.valueOf("2022-04-09"), 333, pupkin);
+        Person veryOldPerson = new Person(2, "Elizabeth", "Peterson", "Ivanovna", Gender.FEMALE, 888, 2222, Date.valueOf("1980-04-09"));
+        WireInternetContract wireInternetContract = new WireInternetContract(100, 4, Date.valueOf("2018-03-09"), Date.valueOf("2024-08-09"), 444, veryOldPerson);
         contractRepository.add(wireInternetContract, mobileConnectionContract, digitalTelevisionContract,youngestPersonMobileConnectionContract);
 
         contractRepository.sort(new QuickSort(), new Comparator<Contract>() {
