@@ -40,9 +40,12 @@ public class Injector {
                 if (classesCount>1){
                     throw new DiException(String.format("More than 1 class of type %s was found",type.getName()));
                 }
+                else if (classesCount==0){
+                    throw new DiException(String.format("Less than 1 class of type %s was found",type.getName()));
+                }
             }
         }
-        return null;
+        return object;
     }
     public static List<Class> getClasses(String[] packagesName) throws IOException, URISyntaxException {
         List<Class> classes=new ArrayList<>();
@@ -89,14 +92,5 @@ public class Injector {
                 }
         );
         return classes;
-    }
-
-    public static void main(String[] args) {
-        try {
-            getClasses("temkarus0070.firstTask");
-        }
-        catch (Exception exception){
-
-        }
     }
 }
