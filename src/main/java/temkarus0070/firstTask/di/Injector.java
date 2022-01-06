@@ -6,11 +6,13 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -25,28 +27,57 @@ public class Injector {
         List<Class> classList=new ArrayList<>();
         for (Field field:fields){
             if (field.isAnnotationPresent(AutoInjectable.class)) {
-                int classesCount=0;
+
                 Class type=field.getType();
+
                 if (classList.size()==0){
                     classList=getClasses(packages);
                 }
-                for (Class aClass : classList) {
-                    if(aClass.isInstance(type)){
-                        field.setAccessible(true);
-                        field.set(object,aClass.getEnclosingConstructor().newInstance());
-                        classesCount++;
-                    }
+                if (type.isInstance(Collection.class)) {
+                    injectInCollection(type,classList,field,object);
+
                 }
-                if (classesCount>1){
-                    throw new DiException(String.format("More than 1 class of type %s was found",type.getName()));
+                else {
+                    injectInSampleType(type,classList,field,object);
                 }
-                else if (classesCount==0){
-                    throw new DiException(String.format("Less than 1 class of type %s was found",type.getName()));
-                }
+
             }
         }
         return object;
     }
+
+    private static void injectInCollection(Class type,List<Class> classList,Field field,Object object) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+        Collection collection= (Collection) type.getEnclosingConstructor().newInstance();
+        field.setAccessible(true);
+        field.set(object,collection);
+        Class collectionType=((ParameterizedType)type.getGenericSuperclass()).getActualTypeArguments()[0].getClass();
+        for (Class aClass : classList) {
+            if(aClass.isInstance(collectionType)){
+              collection.add(aClass.getEnclosingConstructor().newInstance());
+            }
+        }
+
+
+    }
+
+    private static void injectInSampleType(Class type,List<Class> classList,Field field,Object object) throws InvocationTargetException, InstantiationException, IllegalAccessException, DiException {
+        int classesCount=0;
+        for (Class aClass : classList) {
+            if(aClass.isInstance(type)){
+                field.setAccessible(true);
+                field.set(object,aClass.getEnclosingConstructor().newInstance());
+                classesCount++;
+            }
+        }
+        if (classesCount>1){
+            throw new DiException(String.format("More than 1 class of type %s was found",type.getName()));
+        }
+        else if (classesCount==0){
+            throw new DiException(String.format("Less than 1 class of type %s was found",type.getName()));
+        }
+    }
+
+
     public static List<Class> getClasses(String[] packagesName) throws IOException, URISyntaxException {
         List<Class> classes=new ArrayList<>();
         for (String packageName : packagesName) {
