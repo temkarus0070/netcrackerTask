@@ -1,6 +1,11 @@
 package temkarus0070.firstTask.models;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import temkarus0070.firstTask.xmlLoader.LocalDateAdapter;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -8,6 +13,7 @@ import java.util.Objects;
 
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Person {
     private long id;
     private String firstName;
@@ -16,6 +22,9 @@ public class Person {
     private Gender gender;
     private int passportChapter;
     private int passportNum;
+
+    @XmlElement(name = "birth_date")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate birthDate;
 
     public LocalDate getBirthDate() {

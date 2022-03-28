@@ -1,20 +1,32 @@
 package temkarus0070.firstTask.models.contract;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import temkarus0070.firstTask.models.Person;
+import temkarus0070.firstTask.xmlLoader.LocalDateAdapter;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 @XmlSeeAlso({DigitalTelevisionContract.class, MobileConnectionContract.class, WireInternetContract.class})
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Contract {
     private long id;
+
+    @XmlElement(name = "begin_date")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate beginDate;
+
+    @XmlElement(name = "end_date")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate endDate;
     private Integer contractNum;
     private Person contractOwner;
 
-    public Contract(){
+    public Contract() {
 
     }
 

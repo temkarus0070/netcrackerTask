@@ -9,6 +9,7 @@ import temkarus0070.firstTask.models.contract.Contract;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -122,4 +123,16 @@ public class ContractRepositoryImpl implements Repository<Contract, Long> {
         sorter.sort();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContractRepositoryImpl)) return false;
+        ContractRepositoryImpl that = (ContractRepositoryImpl) o;
+        return id == that.id && contractNum == that.contractNum && personId == that.personId && contracts.equals(that.contracts) && Objects.equals(sorter, that.sorter);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, contractNum, personId, contracts, sorter);
+    }
 }
