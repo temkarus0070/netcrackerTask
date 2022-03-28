@@ -1,16 +1,19 @@
 package temkarus0070.firstTask.repository;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.di.AutoInjectable;
 import temkarus0070.firstTask.models.contract.Contract;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ContractRepositoryImpl implements Repository<Contract, Long> {
     /**
      * variable to save info about last used identifier

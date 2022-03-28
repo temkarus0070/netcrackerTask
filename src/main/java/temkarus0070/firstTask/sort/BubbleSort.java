@@ -1,12 +1,16 @@
 package temkarus0070.firstTask.sort;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
-import temkarus0070.firstTask.repository.Repository;
 
 import java.util.Comparator;
 import java.util.List;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class BubbleSort implements ISorter<Contract> {
     private Comparator<Contract> comparator;
     private List<Contract> list;

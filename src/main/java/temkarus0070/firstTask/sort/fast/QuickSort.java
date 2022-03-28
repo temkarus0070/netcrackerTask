@@ -1,11 +1,16 @@
 package temkarus0070.firstTask.sort.fast;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import temkarus0070.firstTask.ISorter;
 import temkarus0070.firstTask.models.contract.Contract;
 
 import java.util.Comparator;
 import java.util.List;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class QuickSort implements ISorter<Contract> {
     private List<Contract> list;
     private Comparator<Contract> comparator;

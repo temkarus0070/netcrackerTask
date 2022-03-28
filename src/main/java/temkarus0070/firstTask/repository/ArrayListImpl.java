@@ -1,5 +1,8 @@
 package temkarus0070.firstTask.repository;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import temkarus0070.firstTask.models.contract.Contract;
 
 import java.util.*;
@@ -8,6 +11,8 @@ import java.util.stream.Stream;
 /**
  * My realization of dynamic array with List and Iterable interfaces
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ArrayListImpl implements List<Contract>, Iterable<Contract> {
     private Contract[] array;
     private int size;

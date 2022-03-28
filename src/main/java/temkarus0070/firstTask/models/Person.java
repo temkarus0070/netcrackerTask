@@ -1,12 +1,13 @@
 package temkarus0070.firstTask.models;
 
-import java.lang.reflect.Field;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
+
+@XmlRootElement
 public class Person {
     private long id;
     private String firstName;

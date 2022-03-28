@@ -1,11 +1,12 @@
 package temkarus0070.firstTask.models.contract;
 
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import temkarus0070.firstTask.models.Person;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
+@XmlSeeAlso({DigitalTelevisionContract.class, MobileConnectionContract.class, WireInternetContract.class})
 public abstract class Contract {
     private long id;
     private LocalDate beginDate;
